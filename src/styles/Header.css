@@ -1,0 +1,62 @@
+/* General reset to remove default padding/margin */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header styles */
+header {
+  background-color: #32302f;
+  padding: 20px;
+  color: #d4be98;
+  font-family: "roboto";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%; /* Make sure the header spans the full width of the viewport */
+  z-index: 1000; /* Ensure it's above other content */
+  height: 230px; /* Ensure it has enough height to be visible */
+  display: flex;
+  align-items: center;
+}
+
+/* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 110px;
+  /* font-weight: bold; */
+}
+
+/* Sticky Header Bar */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+body {
+  padding-top: 80px;
+}
+
+.logo-img {
+  padding-left: 40px;
+  padding-right: 15px;
+  scale: 1.05;
+}
+
+/* Responsive design for small screens */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+  }
+}

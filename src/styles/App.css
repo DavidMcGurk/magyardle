@@ -1,0 +1,63 @@
+body {
+  background-color: #282828;
+  zoom: 25%;
+}
+
+.map-container {
+  display: grid;
+  height: 1700px;
+  width: 2100px;
+  left: 50%;
+  top: 50%;
+  position: relative;
+  transform: translateX(-1050px) translateY(-3830px);
+  background-color: #32302f;
+  border: 1px solid #73685e;
+  border-radius: 30px;
+}
+
+.route-title {
+  color: #d4be98;
+  font-family: "roboto";
+  font-weight: 500;
+  font-size: 100px;
+  padding-top: 190px;
+  text-align: center;
+  transform: translateY(-3875px);
+}
+
+.start-text {
+  color: #d3859b;
+}
+
+.finish-text {
+  color: #7caea3;
+}
+
+.suggestions-box {
+  display: grid;
+  position: relative;
+  left: 50%;
+  background-color: #282828;
+  color: #d4be98;
+  border: 1px solid white;
+  overflow: auto;
+  border: 1px solid #73685e;
+  border-radius: 20px;
+  font-family: "roboto";
+  font-size: 75px;
+}
+
+.suggestions-list {
+  margin: 0;
+  padding-top: 20px;
+}
+
+.suggestion {
+  cursor: pointer;
+  padding: 20px 0px 20px 40px;
+}
+
+.suggestion:hover {
+  background-color: #73685e;
+}
