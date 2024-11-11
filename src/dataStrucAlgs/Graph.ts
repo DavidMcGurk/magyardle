@@ -1,6 +1,6 @@
-import { Node } from "./GraphNode.ts";
+import Node from "./GraphNode.ts";
 
-export class Graph {
+export default class Graph {
   nodes: Map<string, Node>;
 
   constructor() {

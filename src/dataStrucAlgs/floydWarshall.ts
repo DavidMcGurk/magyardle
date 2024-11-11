@@ -1,9 +1,11 @@
-import { Graph } from "./Graph.ts";
-import { Node } from "./GraphNode.ts";
+import Graph from "./Graph.ts";
+import Node from "./GraphNode.ts";
 
 const INF = Number.MAX_SAFE_INTEGER;
 
-export function floydWarshall(graph: Graph): Map<Node, Map<Node, number>> {
+export default function floydWarshall(
+  graph: Graph
+): Map<Node, Map<Node, number>> {
   const nodes = graph.getAllNodes();
   const dist: Map<Node, Map<Node, number>> = new Map();
 

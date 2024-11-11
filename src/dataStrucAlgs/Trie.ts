@@ -1,7 +1,7 @@
 // Trie.ts
-import { TrieNode } from "./TrieNode";
+import TrieNode from "./TrieNode";
 
-export class Trie {
+export default class Trie {
   root: TrieNode;
 
   constructor() {

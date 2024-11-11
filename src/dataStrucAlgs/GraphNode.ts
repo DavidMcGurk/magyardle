@@ -1,4 +1,4 @@
-export class Node {
+export default class Node {
   name: string;
   edges: Map<Node, number>;
 

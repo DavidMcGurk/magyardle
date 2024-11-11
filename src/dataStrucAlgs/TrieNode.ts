@@ -1,5 +1,5 @@
 // TrieNode.ts
-export class TrieNode {
+export default class TrieNode {
   children: { [key: string]: TrieNode };
   isEndOfWord: boolean;
 
