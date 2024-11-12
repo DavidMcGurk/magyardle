@@ -45,3 +45,8 @@
   background-color: #a2af62;
   color: white;
 }
+
+.submit-button:active {
+  color: #282828;
+  border: #282828;
+}

@@ -61,3 +61,32 @@ body {
 .suggestion:hover {
   background-color: #73685e;
 }
+
+.rerender-button {
+  left: 50%;
+  color: #d4be98;
+  background-color: #282828;
+  font-family: "roboto";
+  font-weight: 500;
+  padding: 45px 30px 45px;
+  width: 300px;
+  color: #a2af62;
+  border: 1px solid #a2af62;
+  border-radius: 20px 20px 20px 20px; /* Rounded corners on the right side */
+  cursor: pointer;
+  font-size: 75px;
+  text-align: center;
+  transform: translateY(-3625px) translateX(-150px);
+  position: relative;
+  display: grid;
+}
+
+.rerender-button:hover {
+  background-color: #a2af62;
+  color: white;
+}
+
+.rerender-button:active {
+  color: #282828;
+  border: #282828;
+}
