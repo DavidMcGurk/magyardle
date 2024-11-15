@@ -13,7 +13,7 @@ import { useGraph } from "./hooks/useGraph";
 import { useGame } from "./hooks/useGame";
 
 const App = () => {
-  const [trie] = useState(new Trie());
+  const [trie, setTrie] = useState(new Trie());
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [recentGuess, setRecentGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -22,10 +22,10 @@ const App = () => {
     useGraph();
 
   const { regionList, handleRegionList, regionMap, minDistances } = useRegion(
-    trie,
+    setTrie,
     fillGraph,
     floydWarshall,
-    adj
+    adj,
   );
 
   const {

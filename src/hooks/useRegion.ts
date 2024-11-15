@@ -4,7 +4,7 @@ import Graph from "../dataStrucAlgs/Graph";
 import Node from "../dataStrucAlgs/GraphNode";
 
 export const useRegion = (
-  trie: Trie,
+  setTrie: (trie: Trie) => void,
   fillGraph: (
     regionList: string[],
     adj: number[][]
@@ -23,13 +23,15 @@ export const useRegion = (
       arr.unshift("");
     }
     setRegionList(arr);
-    addWordsToTrie();
+    addWordsToTrie(arr);
   }, []);
 
-  const addWordsToTrie = () => {
-    for (let region of regionList) {
-      trie.insert(region);
+  const addWordsToTrie = (arr: string[]) => {
+    const filledTrie = new Trie();
+    for (let region of arr) {
+      filledTrie.insert(region);
     }
+    setTrie(filledTrie)
   };
 
   useEffect(() => {
