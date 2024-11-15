@@ -33,8 +33,6 @@ export const useGraph = () => {
         regionGraph.addEdge(regionList[i], regionList[adj[i][j]], 1);
       }
     }
-    // console.log(regionGraph);
-    // console.log(regionMap);
 
     return { regionGraph, regionMap };
   };

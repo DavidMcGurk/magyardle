@@ -25,7 +25,7 @@ const App = () => {
     setTrie,
     fillGraph,
     floydWarshall,
-    adj,
+    adj
   );
 
   const {
@@ -78,7 +78,9 @@ const App = () => {
           <h1 className="route-title">Loading...</h1>
         ) : (
           <div>
-            <pre>{JSON.stringify(adj, null, 2)}</pre>
+            <pre style={{ color: "#282828" }}>
+              {JSON.stringify(adj, null, 2)}
+            </pre>
             <h1 className="route-title">
               {requiredSteps > 1 ? (
                 <>
