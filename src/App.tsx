@@ -17,6 +17,7 @@ const App = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [recentGuess, setRecentGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<string[]>([]);
+  const [language, setLanguage] = useState<"hungarian" | "english">("english");
 
   const { adj, loadingAdjacencies, handleAdjacencyComputed, fillGraph } =
     useGraph();
@@ -70,7 +71,7 @@ const App = () => {
 
   return (
     <div onKeyDown={handleEnterPress}>
-      <Header />
+      <Header language={language} setLanguage={setLanguage} />
       <main>
         <AdjacencyMatrix onAdjacencyComputed={handleAdjacencyComputed} />
 

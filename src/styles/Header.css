@@ -60,3 +60,19 @@ body {
     text-align: center;
   }
 }
+
+.hu-button {
+  font-size: 110px;
+}
+
+.hu-button-active {
+  font-size: 110px;
+}
+
+.en-button {
+  font-size: 110px;
+}
+
+.en-button-active {
+  font-size: 110px;
+}
