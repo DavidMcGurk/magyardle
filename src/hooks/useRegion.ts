@@ -23,6 +23,7 @@ export const useRegion = (
       arr.unshift("");
     }
     setRegionList(arr);
+    console.log(arr);
     addWordsToTrie(arr);
   }, []);
 
@@ -31,7 +32,7 @@ export const useRegion = (
     for (let region of arr) {
       filledTrie.insert(region);
     }
-    setTrie(filledTrie)
+    setTrie(filledTrie);
   };
 
   useEffect(() => {

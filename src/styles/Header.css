@@ -61,18 +61,34 @@ body {
   }
 }
 
-.hu-button {
-  font-size: 110px;
+.language-switcher button {
+  font-family: roboto;
+  color: #d4be98;
+  background-color: #32302f;
+  align-items: center;
+  position: absolute;
+  font-size: 70px;
+  padding: 20px;
+  border: 1px solid #d4be98;
 }
 
-.hu-button-active {
-  font-size: 110px;
+div .hu-button {
+  right: 180px;
+  top: 50px;
+  border-top-left-radius: 25%;
+  border-bottom-left-radius: 25%;
+  padding-right: 30px;
 }
 
-.en-button {
-  font-size: 110px;
+div .en-button {
+  right: 60px;
+  top: 50px;
+  border-top-right-radius: 25%;
+  border-bottom-right-radius: 25%;
 }
 
-.en-button-active {
-  font-size: 110px;
+div .button-active {
+  background-color: #d4be98;
+  color: #32302f;
+  font-weight: bold;
 }

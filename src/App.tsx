@@ -17,7 +17,9 @@ const App = () => {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [recentGuess, setRecentGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<string[]>([]);
-  const [language, setLanguage] = useState<"hungarian" | "english">("english");
+  const [language, setLanguage] = useState<"hungarian" | "english">(
+    "hungarian"
+  );
 
   const { adj, loadingAdjacencies, handleAdjacencyComputed, fillGraph } =
     useGraph();

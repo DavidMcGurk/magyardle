@@ -11,15 +11,20 @@ const LanguageSwitcher = ({ language, setLanguage }: LanguageSwitcherProps) => {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "pace-between" }}>
+    <div
+      className="language-switcher"
+      style={{ display: "flex", justifyContent: "pace-between" }}
+    >
       <button
-        className={language === "hungarian" ? "hu-button-active" : "hu-button"}
+        className={`hu-button ${
+          language === "hungarian" ? "button-active" : ""
+        }`}
         onClick={() => handleLanguageChange("hungarian")}
       >
         HU
       </button>
       <button
-        className={language === "english" ? "en-button-active" : "en-button"}
+        className={`en-button ${language === "english" ? "button-active" : ""}`}
         onClick={() => handleLanguageChange("english")}
       >
         EN
