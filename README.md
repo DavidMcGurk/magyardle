@@ -1,4 +1,5 @@
 # Magyardle
+A fun web-game that will test your knowledge of Hungarian regional geography (!)
 
 ## Prerequisites
 Node.js (v16 or higher)
