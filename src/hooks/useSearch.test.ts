@@ -61,7 +61,8 @@ const setup = (
       setDisconnectedChoices,
       setReadyToEvaluate,
       trie,
-      setSearchResults
+      setSearchResults,
+      "english"
     )
   );
 

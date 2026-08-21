@@ -1,77 +1,83 @@
 # Magyardle
-A fun web-game that will test your knowledge of Hungarian regional geography (!)
+
+A web game that tests your knowledge of Hungarian regional geography. Find the shortest path between two Hungarian regions on an interactive map.
 
 ## Prerequisites
-Node.js (v16 or higher)
-npm or yarn
+
+- Node.js v16 or higher
+- npm
 
 ## Setup
-Clone the repository (if applicable)
 
-### Install dependencies:
-`npm install`
-or
-`yarn install`
+```bash
+npm install
+```
 
 ## Development
-Start the development server:
 
-`npm run dev`
-or
-`yarn dev`
+```bash
+npm run dev
+```
 
-This launches the development server, usually available at http://localhost:5173.
+The dev server runs at http://localhost:5173.
 
 ## Build
-Create a production build:
 
-`npm run build`
-or
-`yarn build`
+```bash
+npm run build
+```
 
 ## Preview
-Locally preview the production build:
 
-`npm run preview`
-or
-`yarn preview`
+```bash
+npm run preview
+```
 
-This starts a local static server to test the production build, usually at http://localhost:4173.
+Serves the production build at http://localhost:4173.
 
 ## Testing
-Run the unit test suite:
 
-`npm test`
-or
-`npm run test:watch` for watch mode.
+```bash
+npm test              # run all tests
+npm run test:watch    # watch mode
+npm run test:coverage # with coverage report
+```
 
-Generate a code coverage report:
-
-`npm run test:coverage`
-
-Tests are written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/).
-Test files live alongside their source files using the `*.test.ts` / `*.test.tsx` naming convention.
+Tests use [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/).
+Test files sit alongside source files as `*.test.ts` / `*.test.tsx`.
 
 ### Coverage
-The core data structures, algorithms, and hooks have full test coverage:
+
+Core data structures, algorithms, and hooks have full test coverage:
+
 - `Graph`, `GraphNode`, `Trie`, `TrieNode` — data structure unit tests
 - `floydWarshall` — all-pairs shortest path algorithm tests
-- `declineRegions` (Hungarian declension) — vowel harmony and suffix tests
+- `declineRegions` — Hungarian declension (vowel harmony and suffix tests)
 - `useGraph`, `useSearch` — React hook tests
+- `i18n` — translation key parity and interpolation tests
 
 ## Linting & Formatting
-Lint the codebase:
 
-`npm run lint`
-or
-`npm run lint:fix` to auto-fix issues.
+```bash
+npm run lint          # check for lint errors
+npm run lint:fix      # auto-fix lint issues
+npm run format:check  # check formatting
+npm run format        # auto-format
+```
 
-Check code formatting:
+[ESLint](https://eslint.org/) with [typescript-eslint](https://typescript-eslint.io/) enforces code quality rules.
+[Prettier](https://prettier.io/) handles formatting. ESLint integrates with Prettier to avoid conflicts.
 
-`npm run format:check`
-or
-`npm run format` to auto-format.
+## Internationalization
 
-[ESLint](https://eslint.org/) with [typescript-eslint](https://typescript-eslint.io/) enforces code quality rules,
-and [Prettier](https://prettier.io/) handles code formatting. The ESLint config integrates with Prettier
-to avoid conflicting rules.
+The game supports Hungarian and English. A language toggle (HU / EN) in the header switches all UI text instantly.
+
+Translations live in [`src/i18n.ts`](src/i18n.ts). The `t(language, key, value?)` helper retrieves strings,
+with optional `{value}` interpolation for dynamic content. The Hungarian route prompt uses
+[`declineRegions.ts`](src/dataStrucAlgs/declineRegions.ts) to apply proper Hungarian declension
+(e.g., "Pestről Budára" — from Pest to Buda).
+
+To add a new translatable string:
+
+1. Add the key to both `english` and `hungarian` in `src/i18n.ts`
+2. Use `t(language, "yourKey")` in any component
