@@ -24,12 +24,12 @@ const GuessList: React.FC<GuessListProps> = ({
         guessQuality === 0
           ? " ✅"
           : guessQuality === 1
-          ? " 🟩"
-          : guessQuality === 2
-          ? " 🟧"
-          : " 🟥";
+            ? " 🟩"
+            : guessQuality === 2
+              ? " 🟧"
+              : " 🟥";
 
-      let newGuesses = [...guesses];
+      const newGuesses = [...guesses];
       newGuesses.push(recentGuess + valueIndicator);
       setGuesses(newGuesses);
 

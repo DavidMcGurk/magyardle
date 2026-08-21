@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Node from "../dataStrucAlgs/GraphNode";
-import Trie from "../dataStrucAlgs/Trie";
+import type Node from "../dataStrucAlgs/GraphNode";
+import type Trie from "../dataStrucAlgs/Trie";
 import { useGraph } from "./useGraph";
 
 const useSearch = (

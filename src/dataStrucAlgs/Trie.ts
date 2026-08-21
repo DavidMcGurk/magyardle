@@ -12,7 +12,7 @@ export default class Trie {
   insert(word: string): void {
     let node = this.root;
 
-    for (let char of word) {
+    for (const char of word) {
       if (!node.children[char]) {
         node.children[char] = new TrieNode();
       }
@@ -24,6 +24,10 @@ export default class Trie {
 
   // Search for all words that start with the given prefix
   search(prefix: string): string[] {
+    if (prefix.length === 0) {
+      return this.getAllWords();
+    }
+
     const realPrefix =
       prefix[0].toUpperCase() + prefix.substring(1).toLowerCase();
     let node = this.root;
