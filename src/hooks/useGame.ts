@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Node from "../dataStrucAlgs/GraphNode";
 import { useGraph } from "./useGraph";
+import findOptimalNext from "../dataStrucAlgs/findOptimalNext";
 
 export const useGame = (
   minDistances: Map<Node, Map<Node, number>>,
@@ -17,6 +18,35 @@ export const useGame = (
   const [updatingComplete, setUpdatingComplete] = useState<boolean>(false);
   const [readyToEvaluate, setReadyToEvaluate] = useState<number>(0);
   const [guessQuality, setGuessQuality] = useState<number>(-1);
+  const [showHint, setShowHint] = useState<boolean>(false);
+  const [hint, setHint] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (
+      minDistances.size > 0 &&
+      adj.length > 0 &&
+      connectedChoices.length > 0
+    ) {
+      const optimal = findOptimalNext(
+        connectedChoices,
+        disconnectedChoices,
+        adj,
+        regionList,
+        regionMap,
+        minDistances,
+        finish
+      );
+      setHint(optimal);
+    }
+  }, [
+    connectedChoices,
+    disconnectedChoices,
+    adj,
+    regionList,
+    regionMap,
+    minDistances,
+    finish,
+  ]);
 
   const calculateNewShortestRoute = (
     connectedChoices: number[],
@@ -167,5 +197,8 @@ export const useGame = (
     requiredSteps,
     guessQuality,
     setGuessQuality,
+    showHint,
+    setShowHint,
+    hint,
   };
 };

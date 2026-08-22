@@ -36,6 +36,7 @@ const MapChart: React.FC<ChildProps> = ({
   }, []);
 
   const [regions, setRegions] = useState<string[]>([]);
+  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
 
   const getFillColour = (geo: GeoFeature) => {
     let colour: string;
@@ -99,23 +100,33 @@ const MapChart: React.FC<ChildProps> = ({
     >
       <Geographies geography={geoUrl} className="region">
         {({ geographies }) => {
-          return geographies.map((geo) => (
+          const sorted = [...geographies].sort((a, b) => {
+            if (a.properties.name === hoveredRegion) return 1;
+            if (b.properties.name === hoveredRegion) return -1;
+            return 0;
+          });
+          return sorted.map((geo) => (
             <Geography
               onClick={() => handleRegionClick(geo)}
               key={geo.rsmKey}
               className={geo.properties.name}
               geography={geo}
+              onMouseEnter={() => setHoveredRegion(geo.properties.name)}
+              onMouseLeave={() => setHoveredRegion(null)}
               style={{
                 default: {
                   fill: `${getFillColour(geo)}`,
-                  stroke: "#504f4e",
-                  zIndex: 1,
+                  stroke:
+                    geo.properties.name === hoveredRegion
+                      ? "#000000"
+                      : "#504f4e",
+                  strokeWidth: geo.properties.name === hoveredRegion ? 2 : 1,
                   outline: "none",
                 },
                 hover: {
                   fill: `${getFillColour(geo)}`,
                   stroke: "#000000",
-                  zIndex: 2,
+                  strokeWidth: 2,
                   outline: "none",
                 },
                 pressed: {

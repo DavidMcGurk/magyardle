@@ -42,6 +42,9 @@ const App = () => {
     requiredSteps,
     guessQuality,
     setGuessQuality,
+    showHint,
+    setShowHint,
+    hint,
   } = useGame(minDistances, adj, regionList, regionMap);
 
   const {
@@ -102,6 +105,20 @@ const App = () => {
             </h1>
           </div>
         )}
+
+        <div className="hint-container">
+          <button
+            className="hint-button"
+            onClick={() => setShowHint(!showHint)}
+          >
+            {showHint ? t(language, "hintHide") : t(language, "hintButton")}
+          </button>
+          {showHint && hint && (
+            <span className="hint-text">
+              {t(language, "hintText", hint.substring(0, 2))}
+            </span>
+          )}
+        </div>
 
         <div className="map-container">
           <MapChart

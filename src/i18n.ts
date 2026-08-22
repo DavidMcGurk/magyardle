@@ -13,6 +13,9 @@ export const translations = {
     alertTargetRegion: "You can't guess the target region!",
     alertAlreadyGuessed: "You have already guessed {value}",
     alertInvalidInput: "{value} is not a valid input",
+    hintButton: "Hint",
+    hintHide: "Hide Hint",
+    hintText: "Optimal next guess starts with: {value}",
   },
   hungarian: {
     loading: "Töltés...",
@@ -26,6 +29,9 @@ export const translations = {
     alertTargetRegion: "Nem tippelhetsz célrégiót!",
     alertAlreadyGuessed: "Már tippelted: {value}",
     alertInvalidInput: "{value} nem érvényes bemenet",
+    hintButton: "Tipp (segítség)",
+    hintHide: "Tipp elrejtése",
+    hintText: "A következő optimális tipp így kezdődik: {value}",
   },
 } as const;
 

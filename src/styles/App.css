@@ -90,3 +90,38 @@ body {
   color: #282828;
   border: #282828;
 }
+
+.hint-container {
+  position: relative;
+  left: 50%;
+  transform: translateY(-3875px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.hint-button {
+  color: #d4be98;
+  background-color: #282828;
+  font-family: "roboto";
+  font-weight: 500;
+  padding: 30px 40px;
+  border: 1px solid #d4be98;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 60px;
+  text-align: center;
+}
+
+.hint-button:hover {
+  background-color: #d4be98;
+  color: #282828;
+}
+
+.hint-text {
+  color: #d4be98;
+  font-family: "roboto";
+  font-size: 60px;
+  font-weight: 500;
+}
