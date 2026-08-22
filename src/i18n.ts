@@ -29,8 +29,8 @@ export const translations = {
     alertTargetRegion: "Nem tippelhetsz célrégiót!",
     alertAlreadyGuessed: "Már tippelted: {value}",
     alertInvalidInput: "{value} nem érvényes bemenet",
-    hintButton: "Tipp (segítség)",
-    hintHide: "Tipp elrejtése",
+    hintButton: "Segítség",
+    hintHide: "Elrejtés",
     hintText: "A következő optimális tipp így kezdődik: {value}",
   },
 } as const;

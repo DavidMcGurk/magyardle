@@ -36,7 +36,6 @@ const MapChart: React.FC<ChildProps> = ({
   }, []);
 
   const [regions, setRegions] = useState<string[]>([]);
-  const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
 
   const getFillColour = (geo: GeoFeature) => {
     let colour: string;
@@ -46,7 +45,6 @@ const MapChart: React.FC<ChildProps> = ({
     } else if (geo.properties.name === finish) {
       colour = "#7caea3";
     } else if (connectedChoices.includes(geo.properties.name)) {
-      // console.log("connected: ", geo.properties.name);
       colour = "#d4be98";
     } else if (disconnectedChoices.includes(geo.properties.name)) {
       colour = "#504f4e";
@@ -57,9 +55,22 @@ const MapChart: React.FC<ChildProps> = ({
     return colour;
   };
 
+  // Bring the hovered path to the front via direct DOM manipulation.
+  // This avoids React re-renders that would conflict with d3 transitions
+  // used internally by react-simple-maps, which caused stuck black borders.
+  const handleMouseEnter = useCallback(
+    (e: React.MouseEvent<SVGPathElement>) => {
+      const path = e.currentTarget;
+      const parent = path.parentNode;
+      if (parent) {
+        parent.appendChild(path);
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     const initialRegions: string[] = [];
-    // console.log("this fn is being called");
 
     const loadInitialRegions = async () => {
       const response = await fetch(geoUrl);
@@ -99,34 +110,25 @@ const MapChart: React.FC<ChildProps> = ({
       className="Map"
     >
       <Geographies geography={geoUrl} className="region">
-        {({ geographies }) => {
-          const sorted = [...geographies].sort((a, b) => {
-            if (a.properties.name === hoveredRegion) return 1;
-            if (b.properties.name === hoveredRegion) return -1;
-            return 0;
-          });
-          return sorted.map((geo) => (
+        {({ geographies }) =>
+          geographies.map((geo) => (
             <Geography
               onClick={() => handleRegionClick(geo)}
               key={geo.rsmKey}
               className={geo.properties.name}
               geography={geo}
-              onMouseEnter={() => setHoveredRegion(geo.properties.name)}
-              onMouseLeave={() => setHoveredRegion(null)}
+              onMouseEnter={handleMouseEnter}
               style={{
                 default: {
                   fill: `${getFillColour(geo)}`,
-                  stroke:
-                    geo.properties.name === hoveredRegion
-                      ? "#000000"
-                      : "#504f4e",
-                  strokeWidth: geo.properties.name === hoveredRegion ? 2 : 1,
+                  stroke: "#504f4e",
+                  strokeWidth: 1,
                   outline: "none",
                 },
                 hover: {
                   fill: `${getFillColour(geo)}`,
-                  stroke: "#000000",
-                  strokeWidth: 2,
+                  stroke: "#504f4e",
+                  strokeWidth: 1,
                   outline: "none",
                 },
                 pressed: {
@@ -134,9 +136,9 @@ const MapChart: React.FC<ChildProps> = ({
                   outline: "none",
                 },
               }}
-            ></Geography>
-          ));
-        }}
+            />
+          ))
+        }
       </Geographies>
     </ComposableMap>
   );

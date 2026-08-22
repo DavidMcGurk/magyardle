@@ -5,3 +5,10 @@
   left: 50%;
   transform: translatex(-1340px) translateY(-110px);
 }
+
+/* Override d3 inline styles on hover. d3 (used by react-simple-maps) sets
+   stroke as an inline style, so !important is needed to override it. */
+.region path:hover {
+  stroke: #000000 !important;
+  stroke-width: 2 !important;
+}

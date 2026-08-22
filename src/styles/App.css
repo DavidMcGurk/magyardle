@@ -94,7 +94,7 @@ body {
 .hint-container {
   position: relative;
   left: 50%;
-  transform: translateY(-3875px);
+  transform: translateY(-5175px);
   display: flex;
   align-items: center;
   justify-content: center;
