@@ -104,7 +104,7 @@ const MapChart: React.FC<ChildProps> = ({
     <ComposableMap
       projection="geoAzimuthalEqualArea"
       projectionConfig={{
-        scale: 7000,
+        scale: 9000,
         center: [19.5, 47],
       }}
       className="Map"

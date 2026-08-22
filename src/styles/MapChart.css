@@ -1,9 +1,8 @@
 .Map {
   position: relative;
   display: grid;
-  height: 2100px;
-  left: 50%;
-  transform: translatex(-1340px) translateY(-110px);
+  width: 100%;
+  height: 100%;
 }
 
 /* Override d3 inline styles on hover. d3 (used by react-simple-maps) sets

@@ -18,11 +18,13 @@ const useSearch = (
   setReadyToEvaluate: (value: number) => void,
   trie: Trie,
   setSearchResults: (results: string[]) => void,
-  language: Language
+  language: Language,
+  setShowHint: (show: boolean) => void
 ) => {
   const { isConnected } = useGraph();
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
@@ -40,6 +42,7 @@ const useSearch = (
       const node = regionList.indexOf(inputValue);
       const connected = isConnected(node, connectedChoices, adj);
       setRecentGuess(inputValue);
+      setShowHint(false);
       if (connected) {
         const choices = [...connectedChoices];
         choices.push(node);
@@ -57,9 +60,27 @@ const useSearch = (
     }
   };
 
-  const handleEnterPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter" && inputValue !== "") {
-      handleGuessClick();
+  const handleEnterPress = (
+    event: React.KeyboardEvent,
+    searchResults: string[] = []
+  ) => {
+    if (event.key === "ArrowDown" && searchResults.length > 0) {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prev) =>
+        prev < searchResults.length - 1 ? prev + 1 : prev
+      );
+    } else if (event.key === "ArrowUp" && searchResults.length > 0) {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (event.key === "Enter") {
+      if (
+        selectedSuggestionIndex >= 0 &&
+        selectedSuggestionIndex < searchResults.length
+      ) {
+        handleSelectSuggestion(searchResults[selectedSuggestionIndex]);
+      } else if (inputValue !== "") {
+        handleGuessClick();
+      }
     }
   };
 
@@ -71,6 +92,7 @@ const useSearch = (
   const handleSelectSuggestion = (value: string) => {
     setInputValue(value);
     setSearchResults([]);
+    setSelectedSuggestionIndex(-1);
   };
 
   useEffect(() => {
@@ -79,6 +101,7 @@ const useSearch = (
     } else {
       setSearchResults([]);
     }
+    setSelectedSuggestionIndex(-1);
   }, [searchTerm]);
 
   return {
@@ -87,6 +110,8 @@ const useSearch = (
     handleGuessClick,
     handleInputChange,
     handleSelectSuggestion,
+    selectedSuggestionIndex,
+    setSelectedSuggestionIndex,
   };
 };
 

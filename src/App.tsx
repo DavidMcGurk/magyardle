@@ -53,6 +53,7 @@ const App = () => {
     handleGuessClick,
     handleEnterPress,
     handleSelectSuggestion,
+    selectedSuggestionIndex,
   } = useSearch(
     start,
     finish,
@@ -67,13 +68,9 @@ const App = () => {
     setReadyToEvaluate,
     trie,
     setSearchResults,
-    language
+    language,
+    setShowHint
   );
-
-  // constants to align search box
-  const maxHeight = 800;
-  const itemHeight = 150;
-  const boxHeight = Math.min(searchResults.length * itemHeight, maxHeight);
 
   const routePrompt = (() => {
     if (language === "hungarian") {
@@ -88,7 +85,7 @@ const App = () => {
   })();
 
   return (
-    <div onKeyDown={handleEnterPress}>
+    <div onKeyDown={(e) => handleEnterPress(e, searchResults)}>
       <Header language={language} setLanguage={setLanguage} />
       <main>
         <AdjacencyMatrix onAdjacencyComputed={handleAdjacencyComputed} />
@@ -96,29 +93,10 @@ const App = () => {
         {loadingAdjacencies ? (
           <h1 className="route-title">{t(language, "loading")}</h1>
         ) : (
-          <div>
-            <pre style={{ color: "#282828" }}>
-              {JSON.stringify(adj, null, 2)}
-            </pre>
-            <h1 className="route-title">
-              {requiredSteps > 1 ? routePrompt : t(language, "youWin")}
-            </h1>
-          </div>
+          <h1 className="route-title">
+            {requiredSteps > 1 ? routePrompt : t(language, "youWin")}
+          </h1>
         )}
-
-        <div className="hint-container">
-          <button
-            className="hint-button"
-            onClick={() => setShowHint(!showHint)}
-          >
-            {showHint ? t(language, "hintHide") : t(language, "hintButton")}
-          </button>
-          {showHint && hint && (
-            <span className="hint-text">
-              {t(language, "hintText", hint.substring(0, 2))}
-            </span>
-          )}
-        </div>
 
         <div className="map-container">
           <MapChart
@@ -141,9 +119,7 @@ const App = () => {
         <div
           className="suggestions-box"
           style={{
-            height: `${boxHeight}px`,
-            width: `${searchResults.length > 0 ? 2100 : 0}px`,
-            transform: `translatex(-1050px) translateY(${-3930 - boxHeight}px)`,
+            display: searchResults.length > 0 ? "block" : "none",
           }}
         >
           {searchResults.length > 0 && (
@@ -152,6 +128,11 @@ const App = () => {
                 <li
                   key={index}
                   className="suggestion"
+                  style={
+                    index === selectedSuggestionIndex
+                      ? { backgroundColor: "#73685e" }
+                      : undefined
+                  }
                   onClick={() => handleSelectSuggestion(item)}
                 >
                   {item}
@@ -160,6 +141,21 @@ const App = () => {
             </ul>
           )}
         </div>
+
+        <div className="hint-container">
+          <button
+            className="hint-button"
+            onClick={() => setShowHint(!showHint)}
+          >
+            {showHint ? t(language, "hintHide") : t(language, "hintButton")}
+          </button>
+          {showHint && hint && (
+            <span className="hint-text">
+              {t(language, "hintText", hint.substring(0, 2))}
+            </span>
+          )}
+        </div>
+
         <GuessList
           guesses={guesses}
           setGuesses={setGuesses}

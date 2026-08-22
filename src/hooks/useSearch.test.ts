@@ -44,6 +44,7 @@ const setup = (
   const setDisconnectedChoices = vi.fn();
   const setReadyToEvaluate = vi.fn();
   const setSearchResults = vi.fn();
+  const setShowHint = vi.fn();
 
   const trie = makeTrie(regionList);
 
@@ -62,7 +63,8 @@ const setup = (
       setReadyToEvaluate,
       trie,
       setSearchResults,
-      "english"
+      "english",
+      setShowHint
     )
   );
 
@@ -73,6 +75,7 @@ const setup = (
     setDisconnectedChoices,
     setReadyToEvaluate,
     setSearchResults,
+    setShowHint,
   };
 };
 
@@ -98,7 +101,8 @@ describe("useSearch", () => {
           vi.fn(),
           makeTrie(["", "Pest", "Buda"]),
           vi.fn(),
-          "english"
+          "english",
+          vi.fn()
         )
       );
 
@@ -316,7 +320,8 @@ describe("useSearch", () => {
           vi.fn(),
           makeTrie(["", "Pest", "Buda"]),
           setSearchResults,
-          "english"
+          "english",
+          vi.fn()
         )
       );
 
