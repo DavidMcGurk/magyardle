@@ -76,7 +76,8 @@ main {
   flex-shrink: 0;
 }
 
-.hint-button {
+.hint-button,
+.restart-button {
   color: var(--color-text);
   background-color: var(--color-bg);
   font-family: "Roboto", sans-serif;
@@ -89,8 +90,19 @@ main {
   text-align: center;
 }
 
-.hint-button:hover {
+.hint-button:hover,
+.restart-button:hover {
   background-color: var(--color-text);
+  color: var(--color-bg);
+}
+
+.restart-button {
+  border-color: var(--color-good);
+  color: var(--color-good);
+}
+
+.restart-button:hover {
+  background-color: var(--color-good);
   color: var(--color-bg);
 }
 

@@ -45,6 +45,7 @@ const App = () => {
     showHint,
     setShowHint,
     hint,
+    resetGame,
   } = useGame(minDistances, adj, regionList, regionMap);
 
   const {
@@ -53,6 +54,7 @@ const App = () => {
     handleGuessClick,
     handleEnterPress,
     handleSelectSuggestion,
+    resetSearch,
     selectedSuggestionIndex,
   } = useSearch(
     start,
@@ -83,6 +85,14 @@ const App = () => {
     }
     return `${t(language, "routePrompt")} ${start.name} ${t(language, "to")} ${finish.name}`;
   })();
+
+  const handleRestart = () => {
+    setRecentGuess("");
+    setGuesses([]);
+    setSearchResults([]);
+    resetSearch();
+    resetGame();
+  };
 
   return (
     <div onKeyDown={(e) => handleEnterPress(e, searchResults)}>
@@ -148,6 +158,9 @@ const App = () => {
             onClick={() => setShowHint(!showHint)}
           >
             {showHint ? t(language, "hintHide") : t(language, "hintButton")}
+          </button>
+          <button className="restart-button" onClick={handleRestart}>
+            {t(language, "restartButton")}
           </button>
           {showHint && hint && (
             <span className="hint-text">

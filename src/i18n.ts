@@ -16,6 +16,7 @@ export const translations = {
     hintButton: "Hint",
     hintHide: "Hide Hint",
     hintText: "Optimal next guess starts with: {value}",
+    restartButton: "Restart",
   },
   hungarian: {
     loading: "Töltés...",
@@ -32,6 +33,7 @@ export const translations = {
     hintButton: "Segítség",
     hintHide: "Elrejtés",
     hintText: "A következő optimális tipp így kezdődik: {value}",
+    restartButton: "Újrakezdés",
   },
 } as const;
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Node from "../dataStrucAlgs/GraphNode";
 import GameEngine, { type GuessQuality } from "../dataStrucAlgs/GameEngine";
 
@@ -29,6 +29,29 @@ export const useGame = (
   const [guessQuality, setGuessQuality] = useState<GuessQuality>(-1);
   const [showHint, setShowHint] = useState<boolean>(false);
   const [hint, setHint] = useState<string | null>(null);
+
+  const resetGame = useCallback(() => {
+    setStart(new Node(""));
+    setFinish(new Node(""));
+    setConnectedChoices([]);
+    setDisconnectedChoices([]);
+    setRequiredSteps(-1);
+    setUpdatingComplete(false);
+    setReadyToEvaluate(0);
+    setGuessQuality(-1);
+    setShowHint(false);
+    setHint(null);
+
+    if (minDistances.size > 0 && adj.length > 0 && regionMap.size > 0) {
+      const { start, finish, startIndex, requiredSteps } =
+        engine.initializeGame();
+      setStart(start);
+      setFinish(finish);
+      setConnectedChoices([startIndex]);
+      setRequiredSteps(requiredSteps);
+      setHint(engine.computeHintForFinish([startIndex], [], finish));
+    }
+  }, [adj, engine, minDistances, regionMap]);
 
   // Compute hint when choices change
   useEffect(() => {
@@ -125,5 +148,6 @@ export const useGame = (
     showHint,
     setShowHint,
     hint,
+    resetGame,
   };
 };

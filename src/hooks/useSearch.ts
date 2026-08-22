@@ -28,6 +28,13 @@ const useSearch = (
   const engineRef = useRef<SearchEngine | null>(null);
   engineRef.current = new SearchEngine(start, finish, guesses, regionList, adj);
 
+  const resetSearch = () => {
+    setInputValue("");
+    setSearchTerm("");
+    setSearchResults([]);
+    setSelectedSuggestionIndex(-1);
+  };
+
   const handleInputChange = (value: string) => {
     setInputValue(value);
     setSearchTerm(value);
@@ -105,6 +112,7 @@ const useSearch = (
     handleGuessClick,
     handleInputChange,
     handleSelectSuggestion,
+    resetSearch,
     selectedSuggestionIndex,
     setSelectedSuggestionIndex,
   };
