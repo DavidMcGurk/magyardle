@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import "../styles/GuessList.css";
 import { t, type Language } from "../i18n";
+import type { GuessQuality } from "../dataStrucAlgs/GameEngine";
 
 interface GuessListProps {
   guesses: string[];
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>;
   recentGuess: string;
-  guessQuality: number;
-  setGuessQuality: React.Dispatch<React.SetStateAction<number>>;
+  guessQuality: GuessQuality;
+  setGuessQuality: React.Dispatch<React.SetStateAction<GuessQuality>>;
   language: Language;
 }
 

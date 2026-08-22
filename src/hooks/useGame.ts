@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Node from "../dataStrucAlgs/GraphNode";
-import { useGraph } from "./useGraph";
-import findOptimalNext from "../dataStrucAlgs/findOptimalNext";
+import GameEngine, { type GuessQuality } from "../dataStrucAlgs/GameEngine";
 
 export const useGame = (
   minDistances: Map<Node, Map<Node, number>>,
@@ -9,7 +8,17 @@ export const useGame = (
   regionList: string[],
   regionMap: Map<number, Node>
 ) => {
-  const { isConnected } = useGraph();
+  const engineRef = useRef<GameEngine | null>(null);
+  if (!engineRef.current) {
+    engineRef.current = new GameEngine({
+      minDistances,
+      adj,
+      regionList,
+      regionMap,
+    });
+  }
+  const engine = engineRef.current;
+
   const [start, setStart] = useState<Node>(new Node(""));
   const [finish, setFinish] = useState<Node>(new Node(""));
   const [connectedChoices, setConnectedChoices] = useState<number[]>([]);
@@ -17,23 +26,20 @@ export const useGame = (
   const [requiredSteps, setRequiredSteps] = useState<number>(-1);
   const [updatingComplete, setUpdatingComplete] = useState<boolean>(false);
   const [readyToEvaluate, setReadyToEvaluate] = useState<number>(0);
-  const [guessQuality, setGuessQuality] = useState<number>(-1);
+  const [guessQuality, setGuessQuality] = useState<GuessQuality>(-1);
   const [showHint, setShowHint] = useState<boolean>(false);
   const [hint, setHint] = useState<string | null>(null);
 
+  // Compute hint when choices change
   useEffect(() => {
     if (
       minDistances.size > 0 &&
       adj.length > 0 &&
       connectedChoices.length > 0
     ) {
-      const optimal = findOptimalNext(
+      const optimal = engine.computeHintForFinish(
         connectedChoices,
         disconnectedChoices,
-        adj,
-        regionList,
-        regionMap,
-        minDistances,
         finish
       );
       setHint(optimal);
@@ -46,145 +52,64 @@ export const useGame = (
     regionMap,
     minDistances,
     finish,
+    engine,
   ]);
 
-  const calculateNewShortestRoute = (
-    connectedChoices: number[],
-    regionMap: Map<number, Node>,
-    minDistances: Map<Node, Map<Node, number>>,
-    finish: Node
-  ) => {
-    let shortestRoute = Infinity;
-    for (const node of connectedChoices) {
-      const nodeNode = regionMap.get(node)!;
-      shortestRoute = Math.min(
-        shortestRoute,
-        minDistances.get(nodeNode)!.get(finish)!
-      );
-    }
-    return shortestRoute;
-  };
-
-  const calculateDetour = (
-    node: number,
-    connectedChoices: number[],
-    regionMap: Map<number, Node>,
-    minDistances: Map<Node, Map<Node, number>>,
-    finish: Node,
-    requiredSteps: number
-  ) => {
-    let minStepsToNode = Infinity;
-
-    for (const otherNode of connectedChoices) {
-      const first = regionMap.get(node)!;
-      const second = regionMap.get(otherNode)!;
-      minStepsToNode = Math.min(
-        minStepsToNode,
-        minDistances.get(first)!.get(second)!
-      );
-    }
-
-    const nodeNode = regionMap.get(node)!;
-    const distanceNodeToFinish = minDistances.get(finish)!.get(nodeNode)!;
-    const pathViaNode = minStepsToNode + distanceNodeToFinish;
-    return pathViaNode - requiredSteps;
-  };
-
+  // Initialize game when graph data is ready
   useEffect(() => {
     if (minDistances.size > 0 && adj.length > 0) {
-      let condition = false;
-      let startIndex = -1;
-      let finishIndex = -1;
-
-      while (!condition) {
-        startIndex = Math.floor(Math.random() * regionList.length);
-        finishIndex = Math.floor(Math.random() * regionList.length);
-        if (startIndex <= 0 || startIndex === finishIndex || finishIndex <= 0) {
-          continue;
-        }
-
-        const startNode = regionMap.get(startIndex)!;
-        const finishNode = regionMap.get(finishIndex)!;
-        const steps = minDistances.get(startNode)!.get(finishNode)!;
-
-        if (steps > 3) {
-          condition = true;
-
-          setStart(startNode);
-          setFinish(finishNode);
-
-          setConnectedChoices([startIndex]);
-          setRequiredSteps(steps);
-        }
-      }
+      const { start, finish, startIndex, requiredSteps } =
+        engine.initializeGame();
+      setStart(start);
+      setFinish(finish);
+      setConnectedChoices([startIndex]);
+      setRequiredSteps(requiredSteps);
     }
-  }, [adj, minDistances, regionMap]);
+  }, [adj, minDistances, regionMap, engine]);
 
+  // Reconnect disconnected nodes that become adjacent
   useEffect(() => {
-    const intersection = connectedChoices.filter((node) =>
-      disconnectedChoices.includes(node)
-    );
+    const { newlyConnected, remainingDisconnected, hasReconnections } =
+      engine.findReconnectedNodes(connectedChoices, disconnectedChoices);
 
-    if (!intersection.length) {
-      let flag = false;
-      for (const currentlyDisconnected of disconnectedChoices) {
-        if (isConnected(currentlyDisconnected, connectedChoices, adj)) {
-          flag = true;
-          const choices = connectedChoices;
-          choices.push(currentlyDisconnected);
-          setConnectedChoices(choices);
-
-          const disChoices = [...disconnectedChoices].filter(
-            (item) => item !== currentlyDisconnected
-          );
-          setDisconnectedChoices(disChoices);
-        }
-      }
-      if (
-        !flag &&
-        (connectedChoices.length > 1 || disconnectedChoices.length > 0)
-      ) {
-        setUpdatingComplete(true);
-      }
+    if (hasReconnections) {
+      setConnectedChoices([...connectedChoices, ...newlyConnected]);
+      setDisconnectedChoices(remainingDisconnected);
+    } else if (connectedChoices.length > 1 || disconnectedChoices.length > 0) {
+      setUpdatingComplete(true);
     }
-  }, [connectedChoices, disconnectedChoices]);
+  }, [connectedChoices, disconnectedChoices, engine]);
 
+  // Evaluate guess quality
   useEffect(() => {
     if (readyToEvaluate > -2 && updatingComplete) {
       if (readyToEvaluate === -1) {
-        const value = calculateNewShortestRoute(
+        const { quality, newRequiredSteps } = engine.evaluateConnectedGuess(
           connectedChoices,
-          regionMap,
-          minDistances,
-          finish
-        );
-        const dist = value - requiredSteps;
-        if (dist <= -1) {
-          setGuessQuality(0);
-        } else {
-          setGuessQuality(2);
-        }
-        setRequiredSteps(value);
-      } else {
-        const detour = calculateDetour(
-          readyToEvaluate,
-          connectedChoices,
-          regionMap,
-          minDistances,
           finish,
           requiredSteps
         );
-        if (detour === 0) {
-          setGuessQuality(1);
-        } else if (detour === 1) {
-          setGuessQuality(2);
-        } else {
-          setGuessQuality(3);
-        }
+        setGuessQuality(quality);
+        setRequiredSteps(newRequiredSteps);
+      } else {
+        const quality = engine.evaluateDisconnectedGuess(
+          readyToEvaluate,
+          connectedChoices,
+          finish,
+          requiredSteps
+        );
+        setGuessQuality(quality);
       }
       setReadyToEvaluate(-2);
     }
-  }, [readyToEvaluate, updatingComplete]);
+  }, [
+    readyToEvaluate,
+    updatingComplete,
+    connectedChoices,
+    finish,
+    requiredSteps,
+    engine,
+  ]);
 
   return {
     start,

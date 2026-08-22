@@ -1,14 +1,29 @@
 export default class Node {
-  name: string;
-  edges: Map<Node, number>;
+  readonly name: string;
+  private edges: Map<Node, number>;
 
   constructor(name: string) {
     this.name = name;
-    this.edges = new Map(); // Edges are stored as a map of Node -> Weight
+    this.edges = new Map();
   }
 
-  // Connects this node to another node with a given weight
   addEdge(target: Node, weight: number): void {
     this.edges.set(target, weight);
+  }
+
+  getNeighbors(): Node[] {
+    return Array.from(this.edges.keys());
+  }
+
+  getWeightTo(neighbor: Node): number | undefined {
+    return this.edges.get(neighbor);
+  }
+
+  get edgeCount(): number {
+    return this.edges.size;
+  }
+
+  getEdges(): Map<Node, number> {
+    return this.edges;
   }
 }

@@ -1,13 +1,16 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import GuessList from "./GuessList";
+import type { GuessQuality } from "../dataStrucAlgs/GameEngine";
 
 const baseProps = {
   guesses: [] as string[],
   setGuesses: vi.fn() as React.Dispatch<React.SetStateAction<string[]>>,
   recentGuess: "",
-  guessQuality: -1,
-  setGuessQuality: vi.fn() as React.Dispatch<React.SetStateAction<number>>,
+  guessQuality: -1 as GuessQuality,
+  setGuessQuality: vi.fn() as React.Dispatch<
+    React.SetStateAction<GuessQuality>
+  >,
   language: "english" as const,
 };
 

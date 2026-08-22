@@ -37,12 +37,14 @@ export const translations = {
 
 export type TranslationKey = keyof (typeof translations)["english"];
 
+type TranslationDict = Record<TranslationKey, string>;
+
 export function t(
   language: Language,
   key: TranslationKey,
   value?: string
 ): string {
-  const template = translations[language][key];
+  const template = (translations[language] as TranslationDict)[key];
   if (value !== undefined) {
     return template.replace("{value}", value);
   }
