@@ -1,9 +1,10 @@
 import "../styles/Header.css";
 import LanguageSwitcher from "./LanguageSwitcher";
+import type { Language } from "../i18n";
 
 interface HeaderProps {
-  language: "hungarian" | "english";
-  setLanguage: (lang: "hungarian" | "english") => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
 }
 
 const Header = ({ language, setLanguage }: HeaderProps) => {

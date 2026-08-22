@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { type FC, useEffect } from "react";
 
 // Define the types for your JSON data
 interface Feature {
@@ -16,9 +16,7 @@ interface AdjacencyMatrixProps {
   onAdjacencyComputed: (adj: number[][]) => void;
 }
 
-const findAdjacencies: React.FC<AdjacencyMatrixProps> = ({
-  onAdjacencyComputed,
-}) => {
+const AdjacencyMatrix: FC<AdjacencyMatrixProps> = ({ onAdjacencyComputed }) => {
   useEffect(() => {
     const calculateAdjacencies = async () => {
       try {
@@ -27,8 +25,8 @@ const findAdjacencies: React.FC<AdjacencyMatrixProps> = ({
         const data: GeoJsonData = await response.json();
 
         const coords: number[][][] = [[]]; // Array to store coordinates
-        let adj: number[][] = [[]]; // Adjacency matrix
-        let inEach = new Map<number, Set<string>>(); // Map to store sets of stringified coordinates
+        const adj: number[][] = [[]]; // Adjacency matrix
+        const inEach = new Map<number, Set<string>>(); // Map to store sets of stringified coordinates
 
         // Populate coordinates
         data.features.forEach((item) => {
@@ -53,7 +51,7 @@ const findAdjacencies: React.FC<AdjacencyMatrixProps> = ({
         for (let i = 1; i < coords.length; i++) {
           for (let j = 1; j < coords.length; j++) {
             if (i !== j) {
-              for (let item of inEach.get(i) || []) {
+              for (const item of inEach.get(i) || []) {
                 if (inEach.get(j)?.has(item)) {
                   adj[i].push(j); // Add to adjacency list if a matching coordinate is found
                   break;
@@ -70,9 +68,9 @@ const findAdjacencies: React.FC<AdjacencyMatrixProps> = ({
     };
 
     calculateAdjacencies();
-  }, []);
+  }, [onAdjacencyComputed]);
 
   return null;
 };
 
-export default findAdjacencies;
+export default AdjacencyMatrix;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Graph from "../dataStrucAlgs/Graph";
-import Node from "../dataStrucAlgs/GraphNode";
+import type Node from "../dataStrucAlgs/GraphNode";
 
 export const useGraph = () => {
   const [adj, setAdj] = useState<number[][]>([[]]);
@@ -18,9 +18,9 @@ export const useGraph = () => {
   };
 
   const fillGraph = (regionList: string[], adj: number[][]) => {
-    let regionGraph = new Graph();
+    const regionGraph = new Graph();
     let num = 0;
-    let regionMap = new Map<number, Node>();
+    const regionMap = new Map<number, Node>();
 
     regionList.forEach((region) => {
       const newNode = regionGraph.addNode(region);
@@ -42,7 +42,7 @@ export const useGraph = () => {
     connectedChoices: number[],
     adj: number[][]
   ) => {
-    for (let otherNode of connectedChoices) {
+    for (const otherNode of connectedChoices) {
       if (adj[node].includes(otherNode)) {
         return true;
       }

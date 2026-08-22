@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import Trie from "../dataStrucAlgs/Trie";
-import Graph from "../dataStrucAlgs/Graph";
-import Node from "../dataStrucAlgs/GraphNode";
+import type Graph from "../dataStrucAlgs/Graph";
+import type Node from "../dataStrucAlgs/GraphNode";
 
 export const useRegion = (
   setTrie: (trie: Trie) => void,
@@ -23,13 +23,12 @@ export const useRegion = (
       arr.unshift("");
     }
     setRegionList(arr);
-    console.log(arr);
     addWordsToTrie(arr);
   }, []);
 
   const addWordsToTrie = (arr: string[]) => {
     const filledTrie = new Trie();
-    for (let region of arr) {
+    for (const region of arr) {
       filledTrie.insert(region);
     }
     setTrie(filledTrie);

@@ -25,8 +25,8 @@ export const useGame = (
     finish: Node
   ) => {
     let shortestRoute = Infinity;
-    for (let node of connectedChoices) {
-      let nodeNode = regionMap.get(node)!;
+    for (const node of connectedChoices) {
+      const nodeNode = regionMap.get(node)!;
       shortestRoute = Math.min(
         shortestRoute,
         minDistances.get(nodeNode)!.get(finish)!
@@ -45,7 +45,7 @@ export const useGame = (
   ) => {
     let minStepsToNode = Infinity;
 
-    for (let otherNode of connectedChoices) {
+    for (const otherNode of connectedChoices) {
       const first = regionMap.get(node)!;
       const second = regionMap.get(otherNode)!;
       minStepsToNode = Math.min(
@@ -69,13 +69,13 @@ export const useGame = (
       while (!condition) {
         startIndex = Math.floor(Math.random() * regionList.length);
         finishIndex = Math.floor(Math.random() * regionList.length);
-        if (startIndex <= 0 || startIndex == finishIndex || finishIndex <= 0) {
+        if (startIndex <= 0 || startIndex === finishIndex || finishIndex <= 0) {
           continue;
         }
 
         const startNode = regionMap.get(startIndex)!;
         const finishNode = regionMap.get(finishIndex)!;
-        let steps = minDistances.get(startNode)!.get(finishNode)!;
+        const steps = minDistances.get(startNode)!.get(finishNode)!;
 
         if (steps > 3) {
           condition = true;
@@ -85,7 +85,6 @@ export const useGame = (
 
           setConnectedChoices([startIndex]);
           setRequiredSteps(steps);
-          console.log("steps = ", steps);
         }
       }
     }
@@ -98,7 +97,7 @@ export const useGame = (
 
     if (!intersection.length) {
       let flag = false;
-      for (let currentlyDisconnected of disconnectedChoices) {
+      for (const currentlyDisconnected of disconnectedChoices) {
         if (isConnected(currentlyDisconnected, connectedChoices, adj)) {
           flag = true;
           const choices = connectedChoices;
@@ -122,7 +121,7 @@ export const useGame = (
 
   useEffect(() => {
     if (readyToEvaluate > -2 && updatingComplete) {
-      if (readyToEvaluate == -1) {
+      if (readyToEvaluate === -1) {
         const value = calculateNewShortestRoute(
           connectedChoices,
           regionMap,
@@ -130,8 +129,11 @@ export const useGame = (
           finish
         );
         const dist = value - requiredSteps;
-        console.log("New shortest =", value, dist);
-        dist <= -1 ? setGuessQuality(0) : setGuessQuality(2);
+        if (dist <= -1) {
+          setGuessQuality(0);
+        } else {
+          setGuessQuality(2);
+        }
         setRequiredSteps(value);
       } else {
         const detour = calculateDetour(
@@ -142,12 +144,13 @@ export const useGame = (
           finish,
           requiredSteps
         );
-        console.log("detour is", detour);
-        detour == 0
-          ? setGuessQuality(1)
-          : detour == 1
-          ? setGuessQuality(2)
-          : setGuessQuality(3);
+        if (detour === 0) {
+          setGuessQuality(1);
+        } else if (detour === 1) {
+          setGuessQuality(2);
+        } else {
+          setGuessQuality(3);
+        }
       }
       setReadyToEvaluate(-2);
     }

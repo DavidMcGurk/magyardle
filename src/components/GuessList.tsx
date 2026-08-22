@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import "../styles/GuessList.css";
+import { t, type Language } from "../i18n";
 
-// Define the type for the props
 interface GuessListProps {
   guesses: string[];
   setGuesses: React.Dispatch<React.SetStateAction<string[]>>;
   recentGuess: string;
   guessQuality: number;
   setGuessQuality: React.Dispatch<React.SetStateAction<number>>;
+  language: Language;
 }
 
 const GuessList: React.FC<GuessListProps> = ({
@@ -16,6 +17,7 @@ const GuessList: React.FC<GuessListProps> = ({
   recentGuess,
   guessQuality,
   setGuessQuality,
+  language,
 }) => {
   // useEffect that runs when recentGuess changes
   useEffect(() => {
@@ -24,12 +26,12 @@ const GuessList: React.FC<GuessListProps> = ({
         guessQuality === 0
           ? " ✅"
           : guessQuality === 1
-          ? " 🟩"
-          : guessQuality === 2
-          ? " 🟧"
-          : " 🟥";
+            ? " 🟩"
+            : guessQuality === 2
+              ? " 🟧"
+              : " 🟥";
 
-      let newGuesses = [...guesses];
+      const newGuesses = [...guesses];
       newGuesses.push(recentGuess + valueIndicator);
       setGuesses(newGuesses);
 
@@ -42,7 +44,7 @@ const GuessList: React.FC<GuessListProps> = ({
       {/* Only display the list if there are items in guesses */}
       {guesses.length > 0 && (
         <div className="guessList">
-          <h4>Guesses:</h4>
+          <h4>{t(language, "guessesHeader")}</h4>
           <ul>
             {guesses.map((guess, index) => (
               <li key={index}>

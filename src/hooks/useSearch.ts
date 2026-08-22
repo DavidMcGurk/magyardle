@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import Node from "../dataStrucAlgs/GraphNode";
-import Trie from "../dataStrucAlgs/Trie";
+import type Node from "../dataStrucAlgs/GraphNode";
+import type Trie from "../dataStrucAlgs/Trie";
 import { useGraph } from "./useGraph";
+import { t, type Language } from "../i18n";
 
 const useSearch = (
   start: Node,
@@ -16,7 +17,8 @@ const useSearch = (
   setDisconnectedChoices: (choices: number[]) => void,
   setReadyToEvaluate: (value: number) => void,
   trie: Trie,
-  setSearchResults: (results: string[]) => void
+  setSearchResults: (results: string[]) => void,
+  language: Language
 ) => {
   const { isConnected } = useGraph();
   const [inputValue, setInputValue] = useState("");
@@ -29,11 +31,11 @@ const useSearch = (
 
   const handleGuessClick = () => {
     if (start.name === inputValue) {
-      alert("You can't guess the start region!");
+      alert(t(language, "alertStartRegion"));
     } else if (finish.name === inputValue) {
-      alert("You can't guess the target region!");
+      alert(t(language, "alertTargetRegion"));
     } else if (guesses.includes(inputValue)) {
-      alert(`You have already guessed ${inputValue}`);
+      alert(t(language, "alertAlreadyGuessed", inputValue));
     } else if (regionList.includes(inputValue)) {
       const node = regionList.indexOf(inputValue);
       const connected = isConnected(node, connectedChoices, adj);
@@ -51,7 +53,7 @@ const useSearch = (
       }
       setInputValue("");
     } else {
-      alert(`${inputValue} is not a valid input`);
+      alert(t(language, "alertInvalidInput", inputValue));
     }
   };
 

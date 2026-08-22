@@ -1,19 +1,20 @@
 import "../styles/Header.css";
+import type { Language } from "../i18n";
 
 interface LanguageSwitcherProps {
-  language: "hungarian" | "english";
-  setLanguage: (lang: "hungarian" | "english") => void;
+  language: Language;
+  setLanguage: (lang: Language) => void;
 }
 
 const LanguageSwitcher = ({ language, setLanguage }: LanguageSwitcherProps) => {
-  const handleLanguageChange = (lang: "hungarian" | "english") => {
+  const handleLanguageChange = (lang: Language) => {
     setLanguage(lang);
   };
 
   return (
     <div
       className="language-switcher"
-      style={{ display: "flex", justifyContent: "pace-between" }}
+      style={{ display: "flex", justifyContent: "space-between" }}
     >
       <button
         className={`hu-button ${

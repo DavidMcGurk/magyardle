@@ -2,16 +2,15 @@ export default function processName(
   input: string,
   destination: boolean
 ): string {
-  let frontVowel: boolean = true;
   let declension: string = input;
   let suffix: string = "";
 
-  let illative =
+  const illative =
     input.endsWith("Megye") ||
     ["Salgótarján", "Dunaújváros", "Veszprém", "Debrecen"].includes(input);
 
   const lastWord = input.split(/[-\s]/).pop() || "";
-  frontVowel = !/[aáoóuú]/i.test(lastWord);
+  const frontVowel: boolean = !/[aáoóuú]/i.test(lastWord);
 
   if (destination && illative) {
     if (frontVowel) {
@@ -27,23 +26,23 @@ export default function processName(
     }
   } else if (!destination && illative) {
     if (frontVowel) {
-      suffix = "ból";
-    } else {
       suffix = "ből";
+    } else {
+      suffix = "ból";
     }
   } else if (!destination && !illative) {
     if (frontVowel) {
-      suffix = "ról";
-    } else {
       suffix = "ről";
+    } else {
+      suffix = "ról";
     }
   }
 
   const finalCharacter = declension[declension.length - 1];
-  if (finalCharacter == "a") {
+  if (finalCharacter === "a") {
     declension = declension.slice(0, declension.length - 1) + "á";
-  } else if (finalCharacter == "e") {
-    declension.slice(0, declension.length - 1) + "é";
+  } else if (finalCharacter === "e") {
+    declension = declension.slice(0, declension.length - 1) + "é";
   }
 
   declension = declension + suffix;

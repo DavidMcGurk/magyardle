@@ -1,4 +1,4 @@
-import Node from "./GraphNode.ts";
+import Node from "./GraphNode";
 
 export default class Graph {
   nodes: Map<string, Node>;

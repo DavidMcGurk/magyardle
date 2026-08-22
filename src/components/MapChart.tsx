@@ -2,6 +2,17 @@ import React, { useCallback, useState, useEffect } from "react";
 import "../styles/MapChart.css";
 import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 
+interface GeoFeatureProperties {
+  name: string;
+  [key: string]: unknown;
+}
+
+interface GeoFeature {
+  rsmKey: string;
+  properties: GeoFeatureProperties;
+  [key: string]: unknown;
+}
+
 interface ChildProps {
   passRegions: (regions: string[]) => void;
   start: string;
@@ -19,13 +30,14 @@ const MapChart: React.FC<ChildProps> = ({
 }) => {
   const geoUrl = "/hu.json";
 
-  const handleRegionClick = useCallback((geo) => {
-    console.log(geo.properties.name);
+  const handleRegionClick = useCallback((geo: GeoFeature) => {
+    // Region click handler - could be used for future interactivity
+    void geo;
   }, []);
 
   const [regions, setRegions] = useState<string[]>([]);
 
-  const getFillColour = (geo: any) => {
+  const getFillColour = (geo: GeoFeature) => {
     let colour: string;
 
     if (geo.properties.name === start) {
@@ -53,7 +65,7 @@ const MapChart: React.FC<ChildProps> = ({
       const data = await response.json();
 
       if (data && data.features) {
-        data.features.forEach((feature: any) => {
+        data.features.forEach((feature: GeoFeature) => {
           initialRegions.push(feature.properties.name);
         });
       }
@@ -67,7 +79,7 @@ const MapChart: React.FC<ChildProps> = ({
   }, [geoUrl]);
 
   useEffect(() => {
-    console.log(start, finish);
+    // Start/finish changed - could trigger UI updates
   }, [start, finish]);
 
   useEffect(() => {

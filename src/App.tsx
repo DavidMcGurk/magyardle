@@ -11,15 +11,15 @@ import useSearch from "./hooks/useSearch";
 import { useRegion } from "./hooks/useRegion";
 import { useGraph } from "./hooks/useGraph";
 import { useGame } from "./hooks/useGame";
+import { t, type Language } from "./i18n";
+import processName from "./dataStrucAlgs/declineRegions";
 
 const App = () => {
   const [trie, setTrie] = useState(new Trie());
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [recentGuess, setRecentGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<string[]>([]);
-  const [language, setLanguage] = useState<"hungarian" | "english">(
-    "hungarian"
-  );
+  const [language, setLanguage] = useState<Language>("hungarian");
 
   const { adj, loadingAdjacencies, handleAdjacencyComputed, fillGraph } =
     useGraph();
@@ -63,13 +63,24 @@ const App = () => {
     setDisconnectedChoices,
     setReadyToEvaluate,
     trie,
-    setSearchResults
+    setSearchResults,
+    language
   );
 
   // constants to align search box
   const maxHeight = 800;
   const itemHeight = 150;
   const boxHeight = Math.min(searchResults.length * itemHeight, maxHeight);
+
+  const routePrompt = (() => {
+    if (language === "hungarian") {
+      // Hungarian uses declension: "Pestről Budára" (from Pest to Buda)
+      const from = processName(start.name, false);
+      const to = processName(finish.name, true);
+      return `${from} ${to}`;
+    }
+    return `${t(language, "routePrompt")} ${start.name} ${t(language, "to")} ${finish.name}`;
+  })();
 
   return (
     <div onKeyDown={handleEnterPress}>
@@ -78,22 +89,14 @@ const App = () => {
         <AdjacencyMatrix onAdjacencyComputed={handleAdjacencyComputed} />
 
         {loadingAdjacencies ? (
-          <h1 className="route-title">Loading...</h1>
+          <h1 className="route-title">{t(language, "loading")}</h1>
         ) : (
           <div>
             <pre style={{ color: "#282828" }}>
               {JSON.stringify(adj, null, 2)}
             </pre>
             <h1 className="route-title">
-              {requiredSteps > 1 ? (
-                <>
-                  Today I'd like to go from{" "}
-                  <span className="start-text">{start.name}</span> to{" "}
-                  <span className="finish-text">{finish.name}</span>
-                </>
-              ) : (
-                <>You win!</>
-              )}
+              {requiredSteps > 1 ? routePrompt : t(language, "youWin")}
             </h1>
           </div>
         )}
@@ -114,6 +117,7 @@ const App = () => {
           inputValue={inputValue}
           onInputChange={handleInputChange}
           onButtonClick={handleGuessClick}
+          language={language}
         />
         <div
           className="suggestions-box"
@@ -143,6 +147,7 @@ const App = () => {
           recentGuess={recentGuess}
           guessQuality={guessQuality}
           setGuessQuality={setGuessQuality}
+          language={language}
         />
       </main>
     </div>

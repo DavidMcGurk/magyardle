@@ -1,5 +1,5 @@
-import Graph from "./Graph.ts";
-import Node from "./GraphNode.ts";
+import type Graph from "./Graph";
+import type Node from "./GraphNode";
 
 const INF = Number.MAX_SAFE_INTEGER;
 
