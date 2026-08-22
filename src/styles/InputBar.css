@@ -9,7 +9,7 @@
 
 /* Styling the text input field */
 .text-input {
-  padding: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
   background-color: var(--color-bg);
   font-family: "Roboto", sans-serif;
   font-size: var(--font-md);
@@ -29,7 +29,7 @@
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-bg);
   font-family: "Roboto", sans-serif;
-  width: 10vw;
+  width: var(--submit-width);
   font-size: var(--font-md);
   text-align: center;
   color: var(--color-good);
