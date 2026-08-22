@@ -74,10 +74,12 @@ const App = () => {
 
   const routePrompt = (() => {
     if (language === "hungarian") {
-      // Hungarian uses declension: "Pestről Budára" (from Pest to Buda)
+      // Hungarian uses declension: "Ma szeretnék menni Pestről Budára"
+      // (Today I'd like to go from Pest to Buda). The "from/to" relation is
+      // expressed purely via case suffixes, so no separate "to" word is needed.
       const from = processName(start.name, false);
       const to = processName(finish.name, true);
-      return `${from} ${to}`;
+      return `${t(language, "routePrompt")} ${from} ${to}`;
     }
     return `${t(language, "routePrompt")} ${start.name} ${t(language, "to")} ${finish.name}`;
   })();

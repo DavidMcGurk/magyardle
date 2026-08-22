@@ -97,7 +97,8 @@ describe("useSearch", () => {
           vi.fn(),
           vi.fn(),
           makeTrie(["", "Pest", "Buda"]),
-          vi.fn()
+          vi.fn(),
+          "english"
         )
       );
 
@@ -314,7 +315,8 @@ describe("useSearch", () => {
           vi.fn(),
           vi.fn(),
           makeTrie(["", "Pest", "Buda"]),
-          setSearchResults
+          setSearchResults,
+          "english"
         )
       );
 
