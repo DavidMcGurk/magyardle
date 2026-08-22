@@ -12,10 +12,7 @@ const LanguageSwitcher = ({ language, setLanguage }: LanguageSwitcherProps) => {
   };
 
   return (
-    <div
-      className="language-switcher"
-      style={{ display: "flex", justifyContent: "space-between" }}
-    >
+    <div className="language-switcher">
       <button
         className={`hu-button ${
           language === "hungarian" ? "button-active" : ""

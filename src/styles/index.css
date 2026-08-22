@@ -1,0 +1,42 @@
+:root {
+  /* Color palette */
+  --color-bg: #282828;
+  --color-surface: #32302f;
+  --color-border: #73685e;
+  --color-text: #d4be98;
+  --color-start: #d3859b;
+  --color-finish: #7caea3;
+  --color-good: #a2af62;
+
+  /* Spacing scale (viewport-relative) */
+  --space-xs: 0.5vh;
+  --space-sm: 1vh;
+  --space-md: 2vh;
+  --space-lg: 3vh;
+
+  /* Font sizes (viewport-relative) */
+  --font-sm: clamp(0.9rem, 2.2vw, 1.4rem);
+  --font-md: clamp(1.1rem, 2.8vw, 1.8rem);
+  --font-lg: clamp(1.5rem, 4vw, 2.5rem);
+  --font-xl: clamp(2rem, 5.5vw, 3.5rem);
+
+  /* Layout dimensions */
+  --header-height: 12vh;
+  --content-max-width: 95vw;
+  --map-height: 55vh;
+  --map-width: 73vh;
+  --input-width: 60vw;
+  --border-radius: 1.5vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: "Roboto", sans-serif;
+  overflow: hidden;
+}

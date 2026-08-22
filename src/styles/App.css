@@ -1,11 +1,6 @@
-body {
-  background-color: #282828;
-  zoom: 25%;
-}
-
 main {
   position: fixed;
-  top: 230px;
+  top: var(--header-height);
   left: 0;
   right: 0;
   bottom: 0;
@@ -16,91 +11,91 @@ main {
 }
 
 .map-container {
-  height: 1700px;
-  width: 2100px;
-  background-color: #32302f;
-  border: 1px solid #73685e;
-  border-radius: 30px;
+  height: var(--map-height);
+  width: var(--map-width);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
   overflow: hidden;
-  margin-top: 20px;
+  margin-top: var(--space-md);
   flex-shrink: 0;
 }
 
 .route-title {
-  color: #d4be98;
-  font-family: "roboto";
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
-  font-size: 100px;
+  font-size: var(--font-xl);
   text-align: center;
-  margin-top: 20px;
+  margin-top: var(--space-md);
   flex-shrink: 0;
 }
 
 .start-text {
-  color: #d3859b;
+  color: var(--color-start);
 }
 
 .finish-text {
-  color: #7caea3;
+  color: var(--color-finish);
 }
 
 .suggestions-box {
-  width: 2100px;
-  background-color: #282828;
-  color: #d4be98;
-  border: 1px solid #73685e;
-  border-radius: 20px;
-  font-family: "roboto";
-  font-size: 75px;
-  margin-top: 10px;
+  width: var(--map-width);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-md);
+  margin-top: var(--space-sm);
   flex-shrink: 0;
 }
 
 .suggestions-list {
   margin: 0;
-  padding: 20px 0;
+  padding: var(--space-sm) 0;
   list-style: none;
 }
 
 .suggestion {
   cursor: pointer;
-  padding: 10px 0px 10px 40px;
+  padding: var(--space-xs) 0 var(--space-xs) var(--space-sm);
 }
 
 .suggestion:hover {
-  background-color: #73685e;
+  background-color: var(--color-border);
 }
 
 .hint-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
-  margin-top: 20px;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
   flex-shrink: 0;
 }
 
 .hint-button {
-  color: #d4be98;
-  background-color: #282828;
-  font-family: "roboto";
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
-  padding: 30px 40px;
-  border: 1px solid #d4be98;
-  border-radius: 20px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-text);
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 60px;
+  font-size: var(--font-lg);
   text-align: center;
 }
 
 .hint-button:hover {
-  background-color: #d4be98;
-  color: #282828;
+  background-color: var(--color-text);
+  color: var(--color-bg);
 }
 
 .hint-text {
-  color: #d4be98;
-  font-family: "roboto";
-  font-size: 60px;
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-lg);
   font-weight: 500;
 }
