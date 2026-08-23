@@ -11,6 +11,13 @@ import floydWarshall from "../dataStrucAlgs/floydWarshall";
 const regions = ["", "A", "B", "C", "D", "E"];
 const adj = [[], [2], [1, 3], [2, 4], [3, 5], [4]];
 
+interface GameHookProps {
+  distances: Map<Node, Map<Node, number>>;
+  adjacency: number[][];
+  regions: string[];
+  map: Map<number, Node>;
+}
+
 function buildGraph() {
   const graph = new Graph();
   const regionMap = new Map<number, Node>();
@@ -91,6 +98,35 @@ describe("useGame", () => {
   });
 
   describe("game initialization", () => {
+    it("initializes after graph data loads asynchronously", () => {
+      const emptyMap = new Map<number, Node>();
+      const emptyDistances = new Map<Node, Map<Node, number>>();
+      const { regionMap, minDistances } = buildGraph();
+      const { result, rerender } = renderHook(
+        ({ distances, adjacency, regions, map }: GameHookProps) =>
+          useGame(distances, adjacency, regions, map),
+        {
+          initialProps: {
+            distances: emptyDistances,
+            adjacency: [[]],
+            regions: [],
+            map: emptyMap,
+          } as GameHookProps,
+        }
+      );
+
+      rerender({
+        distances: minDistances,
+        adjacency: adj,
+        regions,
+        map: regionMap,
+      });
+
+      expect(result.current.start.name).not.toBe("");
+      expect(result.current.finish.name).not.toBe("");
+      expect(result.current.requiredSteps).toBeGreaterThan(3);
+    });
+
     it("sets start, finish, and requiredSteps when graph data is available", () => {
       const { regionMap, minDistances } = buildGraph();
       const { result } = renderHook(() =>

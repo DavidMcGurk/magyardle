@@ -45,18 +45,19 @@ header {
   color: var(--color-text);
   background-color: var(--color-surface);
   font-size: var(--font-lg);
+  font-weight: normal;
   padding: var(--space-xs) var(--space-sm);
   border: 1px solid var(--color-text);
   cursor: pointer;
 }
 
-.hu-button {
+.en-button {
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   padding-right: var(--space-sm);
 }
 
-.en-button {
+.hu-button {
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
 }
@@ -64,7 +65,6 @@ header {
 .button-active {
   background-color: var(--color-text);
   color: var(--color-surface);
-  font-weight: bold;
 }
 
 /* Responsive design for small screens */

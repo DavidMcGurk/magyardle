@@ -6,3 +6,7 @@
   text-align: center;
   margin-top: var(--space-md);
 }
+
+.guessList ul {
+  list-style: none;
+}

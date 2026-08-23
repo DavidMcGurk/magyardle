@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import Node from "../dataStrucAlgs/GraphNode";
 import GameEngine, { type GuessQuality } from "../dataStrucAlgs/GameEngine";
 
@@ -8,16 +8,16 @@ export const useGame = (
   regionList: string[],
   regionMap: Map<number, Node>
 ) => {
-  const engineRef = useRef<GameEngine | null>(null);
-  if (!engineRef.current) {
-    engineRef.current = new GameEngine({
-      minDistances,
-      adj,
-      regionList,
-      regionMap,
-    });
-  }
-  const engine = engineRef.current;
+  const engine = useMemo(
+    () =>
+      new GameEngine({
+        minDistances,
+        adj,
+        regionList,
+        regionMap,
+      }),
+    [adj, minDistances, regionList, regionMap]
+  );
 
   const [start, setStart] = useState<Node>(new Node(""));
   const [finish, setFinish] = useState<Node>(new Node(""));
