@@ -120,3 +120,14 @@ main {
   font-size: var(--font-lg);
   font-weight: 500;
 }
+
+@media (max-width: 600px) {
+  main {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    min-height: calc(100vh - var(--header-height));
+  }
+}
