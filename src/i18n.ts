@@ -13,6 +13,10 @@ export const translations = {
     alertTargetRegion: "You can't guess the target region!",
     alertAlreadyGuessed: "You have already guessed {value}",
     alertInvalidInput: "{value} is not a valid input",
+    hintButton: "Hint",
+    hintHide: "Hide Hint",
+    hintText: "Optimal next guess starts with: {value}",
+    restartButton: "Restart",
   },
   hungarian: {
     loading: "Töltés...",
@@ -26,17 +30,23 @@ export const translations = {
     alertTargetRegion: "Nem tippelhetsz célrégiót!",
     alertAlreadyGuessed: "Már tippelted: {value}",
     alertInvalidInput: "{value} nem érvényes bemenet",
+    hintButton: "Segítség",
+    hintHide: "Elrejtés",
+    hintText: "A következő optimális tipp így kezdődik: {value}",
+    restartButton: "Újrakezdés",
   },
 } as const;
 
 export type TranslationKey = keyof (typeof translations)["english"];
+
+type TranslationDict = Record<TranslationKey, string>;
 
 export function t(
   language: Language,
   key: TranslationKey,
   value?: string
 ): string {
-  const template = translations[language][key];
+  const template = (translations[language] as TranslationDict)[key];
   if (value !== undefined) {
     return template.replace("{value}", value);
   }

@@ -1,92 +1,122 @@
-body {
-  background-color: #282828;
-  zoom: 25%;
+main {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var(--space-lg);
 }
 
 .map-container {
-  display: grid;
-  height: 1700px;
-  width: 2100px;
-  left: 50%;
-  top: 50%;
-  position: relative;
-  transform: translateX(-1050px) translateY(-3830px);
-  background-color: #32302f;
-  border: 1px solid #73685e;
-  border-radius: 30px;
+  height: var(--map-height);
+  width: var(--map-width);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-top: var(--space-md);
+  flex-shrink: 0;
 }
 
 .route-title {
-  color: #d4be98;
-  font-family: "roboto";
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
-  font-size: 100px;
-  padding-top: 190px;
+  font-size: var(--font-xl);
   text-align: center;
-  transform: translateY(-3875px);
+  margin-top: var(--space-md);
+  flex-shrink: 0;
 }
 
 .start-text {
-  color: #d3859b;
+  color: var(--color-start);
 }
 
 .finish-text {
-  color: #7caea3;
+  color: var(--color-finish);
 }
 
 .suggestions-box {
-  display: grid;
-  position: relative;
-  left: 50%;
-  background-color: #282828;
-  color: #d4be98;
-  border: 1px solid white;
-  overflow: auto;
-  border: 1px solid #73685e;
-  border-radius: 20px;
-  font-family: "roboto";
-  font-size: 75px;
+  width: var(--map-width);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-md);
+  margin-top: var(--space-sm);
+  flex-shrink: 0;
+}
+
+.input-error {
+  color: var(--color-start);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-md);
+  font-weight: 500;
+  margin-top: var(--space-sm);
 }
 
 .suggestions-list {
   margin: 0;
-  padding-top: 20px;
+  padding: var(--space-sm) 0;
+  list-style: none;
 }
 
 .suggestion {
   cursor: pointer;
-  padding: 20px 0px 20px 40px;
+  padding: var(--space-xs) 0 var(--space-xs) var(--space-sm);
 }
 
 .suggestion:hover {
-  background-color: #73685e;
+  background-color: var(--color-border);
 }
 
-.rerender-button {
-  left: 50%;
-  color: #d4be98;
-  background-color: #282828;
-  font-family: "roboto";
+.hint-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  flex-shrink: 0;
+}
+
+.hint-button,
+.restart-button {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  font-family: "Roboto", sans-serif;
   font-weight: 500;
-  padding: 45px 30px 45px;
-  width: 300px;
-  color: #a2af62;
-  border: 1px solid #a2af62;
-  border-radius: 20px 20px 20px 20px; /* Rounded corners on the right side */
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-text);
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 75px;
+  font-size: var(--font-lg);
   text-align: center;
-  transform: translateY(-3625px) translateX(-150px);
-  position: relative;
-  display: grid;
 }
 
-.rerender-button:hover {
-  background-color: #a2af62;
-  color: white;
+.hint-button:hover,
+.restart-button:hover {
+  background-color: var(--color-text);
+  color: var(--color-bg);
 }
 
-.rerender-button:active {
-  color: #282828;
-  border: #282828;
+.restart-button {
+  border-color: var(--color-good);
+  color: var(--color-good);
+}
+
+.restart-button:hover {
+  background-color: var(--color-good);
+  color: var(--color-bg);
+}
+
+.hint-text {
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-lg);
+  font-weight: 500;
 }

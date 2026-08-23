@@ -10,8 +10,7 @@ describe("Node", () => {
 
     it("initializes with an empty edges map", () => {
       const node = new Node("Pest");
-      expect(node.edges).toBeInstanceOf(Map);
-      expect(node.edges.size).toBe(0);
+      expect(node.edgeCount).toBe(0);
     });
   });
 
@@ -21,8 +20,8 @@ describe("Node", () => {
       const nodeB = new Node("Buda");
       nodeA.addEdge(nodeB, 5);
 
-      expect(nodeA.edges.size).toBe(1);
-      expect(nodeA.edges.get(nodeB)).toBe(5);
+      expect(nodeA.edgeCount).toBe(1);
+      expect(nodeA.getWeightTo(nodeB)).toBe(5);
     });
 
     it("supports multiple edges to different nodes", () => {
@@ -32,9 +31,9 @@ describe("Node", () => {
       nodeA.addEdge(nodeB, 3);
       nodeA.addEdge(nodeC, 7);
 
-      expect(nodeA.edges.size).toBe(2);
-      expect(nodeA.edges.get(nodeB)).toBe(3);
-      expect(nodeA.edges.get(nodeC)).toBe(7);
+      expect(nodeA.edgeCount).toBe(2);
+      expect(nodeA.getWeightTo(nodeB)).toBe(3);
+      expect(nodeA.getWeightTo(nodeC)).toBe(7);
     });
 
     it("overwrites the weight when adding an edge to an existing node", () => {
@@ -43,16 +42,16 @@ describe("Node", () => {
       nodeA.addEdge(nodeB, 5);
       nodeA.addEdge(nodeB, 10);
 
-      expect(nodeA.edges.size).toBe(1);
-      expect(nodeA.edges.get(nodeB)).toBe(10);
+      expect(nodeA.edgeCount).toBe(1);
+      expect(nodeA.getWeightTo(nodeB)).toBe(10);
     });
 
     it("supports self-loops", () => {
       const nodeA = new Node("Pest");
       nodeA.addEdge(nodeA, 1);
 
-      expect(nodeA.edges.size).toBe(1);
-      expect(nodeA.edges.get(nodeA)).toBe(1);
+      expect(nodeA.edgeCount).toBe(1);
+      expect(nodeA.getWeightTo(nodeA)).toBe(1);
     });
 
     it("supports zero-weight edges", () => {
@@ -60,7 +59,7 @@ describe("Node", () => {
       const nodeB = new Node("Buda");
       nodeA.addEdge(nodeB, 0);
 
-      expect(nodeA.edges.get(nodeB)).toBe(0);
+      expect(nodeA.getWeightTo(nodeB)).toBe(0);
     });
   });
 });

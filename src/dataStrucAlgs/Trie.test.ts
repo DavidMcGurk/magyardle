@@ -3,11 +3,9 @@ import Trie from "./Trie";
 
 describe("Trie", () => {
   describe("constructor", () => {
-    it("initializes with a root node", () => {
+    it("initializes with no words", () => {
       const trie = new Trie();
-      expect(trie.root).toBeDefined();
-      expect(trie.root.children).toEqual({});
-      expect(trie.root.isEndOfWord).toBe(false);
+      expect(trie.getAllWords()).toEqual([]);
     });
   });
 

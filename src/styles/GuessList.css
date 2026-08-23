@@ -1,8 +1,12 @@
 .guessList {
-  color: #d4be98;
-  font-family: "roboto";
-  font-weight: 500;
-  font-size: 100px;
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  font-size: var(--font-lg);
   text-align: center;
-  transform: translateY(-3625px);
+  margin-top: var(--space-md);
+}
+
+.guessList ul {
+  list-style: none;
 }

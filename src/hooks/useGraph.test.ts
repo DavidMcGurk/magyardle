@@ -90,8 +90,8 @@ describe("useGraph", () => {
       const pestNode = graphResult!.regionGraph.getNode("Pest")!;
       const budaNode = graphResult!.regionGraph.getNode("Buda")!;
 
-      expect(pestNode.edges.get(budaNode)).toBe(1);
-      expect(budaNode.edges.get(pestNode)).toBe(1);
+      expect(pestNode.getWeightTo(budaNode)).toBe(1);
+      expect(budaNode.getWeightTo(pestNode)).toBe(1);
     });
 
     it("creates a regionMap mapping indices to nodes", () => {
@@ -120,7 +120,7 @@ describe("useGraph", () => {
       });
 
       expect(graphResult!.regionGraph.getAllNodes()).toHaveLength(2);
-      expect(graphResult!.regionGraph.getNode("Pest")!.edges.size).toBe(0);
+      expect(graphResult!.regionGraph.getNode("Pest")!.edgeCount).toBe(0);
     });
   });
 

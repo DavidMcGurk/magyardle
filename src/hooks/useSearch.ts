@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type Node from "../dataStrucAlgs/GraphNode";
 import type Trie from "../dataStrucAlgs/Trie";
-import { useGraph } from "./useGraph";
-import { t, type Language } from "../i18n";
+import SearchEngine from "../dataStrucAlgs/SearchEngine";
+import type { Language } from "../i18n";
 
 const useSearch = (
   start: Node,
@@ -18,68 +18,96 @@ const useSearch = (
   setReadyToEvaluate: (value: number) => void,
   trie: Trie,
   setSearchResults: (results: string[]) => void,
-  language: Language
+  language: Language,
+  setShowHint: (show: boolean) => void
 ) => {
-  const { isConnected } = useGraph();
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const engineRef = useRef<SearchEngine | null>(null);
+  engineRef.current = new SearchEngine(start, finish, guesses, regionList, adj);
+
+  const resetSearch = () => {
+    setInputValue("");
+    setSearchTerm("");
+    setSearchResults([]);
+    setSelectedSuggestionIndex(-1);
+  };
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
     setSearchTerm(value);
+    setErrorMessage(null);
   };
 
   const handleGuessClick = () => {
-    if (start.name === inputValue) {
-      alert(t(language, "alertStartRegion"));
-    } else if (finish.name === inputValue) {
-      alert(t(language, "alertTargetRegion"));
-    } else if (guesses.includes(inputValue)) {
-      alert(t(language, "alertAlreadyGuessed", inputValue));
-    } else if (regionList.includes(inputValue)) {
-      const node = regionList.indexOf(inputValue);
-      const connected = isConnected(node, connectedChoices, adj);
-      setRecentGuess(inputValue);
-      if (connected) {
-        const choices = [...connectedChoices];
-        choices.push(node);
-        setConnectedChoices(choices);
-        setReadyToEvaluate(-1);
-      } else {
-        const choices = [...disconnectedChoices];
-        choices.push(node);
-        setDisconnectedChoices(choices);
-        setReadyToEvaluate(node);
-      }
-      setInputValue("");
+    const engine = engineRef.current!;
+    const result = engine.validateGuessWithConnections(
+      inputValue,
+      language,
+      connectedChoices
+    );
+
+    if (!result.valid) {
+      setErrorMessage(result.alert);
+      return;
+    }
+
+    setErrorMessage(null);
+    setRecentGuess(inputValue);
+    setShowHint(false);
+
+    if (result.connected) {
+      setConnectedChoices([...connectedChoices, result.nodeIndex]);
+      setReadyToEvaluate(-1);
     } else {
-      alert(t(language, "alertInvalidInput", inputValue));
+      setDisconnectedChoices([...disconnectedChoices, result.nodeIndex]);
+      setReadyToEvaluate(result.nodeIndex);
     }
+    setInputValue("");
   };
 
-  const handleEnterPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter" && inputValue !== "") {
-      handleGuessClick();
+  const handleEnterPress = (
+    event: React.KeyboardEvent,
+    searchResults: string[] = []
+  ) => {
+    if (event.key === "ArrowDown" && searchResults.length > 0) {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prev) =>
+        prev < searchResults.length - 1 ? prev + 1 : prev
+      );
+    } else if (event.key === "ArrowUp" && searchResults.length > 0) {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prev) => (prev > 0 ? prev - 1 : prev));
+    } else if (event.key === "Enter") {
+      if (
+        selectedSuggestionIndex >= 0 &&
+        selectedSuggestionIndex < searchResults.length
+      ) {
+        handleSelectSuggestion(searchResults[selectedSuggestionIndex]);
+      } else if (inputValue !== "") {
+        handleGuessClick();
+      }
     }
-  };
-
-  const handleSearch = () => {
-    const results = trie.search(searchTerm);
-    setSearchResults(results);
   };
 
   const handleSelectSuggestion = (value: string) => {
     setInputValue(value);
     setSearchResults([]);
+    setSelectedSuggestionIndex(-1);
   };
 
   useEffect(() => {
     if (searchTerm.length > 0) {
-      handleSearch();
+      const results = trie.search(searchTerm);
+      setSearchResults(results);
     } else {
       setSearchResults([]);
     }
-  }, [searchTerm]);
+    setSelectedSuggestionIndex(-1);
+  }, [searchTerm, trie, setSearchResults]);
 
   return {
     inputValue,
@@ -87,6 +115,10 @@ const useSearch = (
     handleGuessClick,
     handleInputChange,
     handleSelectSuggestion,
+    resetSearch,
+    selectedSuggestionIndex,
+    setSelectedSuggestionIndex,
+    errorMessage,
   };
 };
 

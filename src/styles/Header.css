@@ -1,22 +1,15 @@
-/* General reset to remove default padding/margin */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 /* Header styles */
 header {
-  background-color: #32302f;
-  padding: 20px;
-  color: #d4be98;
-  font-family: "roboto";
+  background-color: var(--color-surface);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-text);
+  font-family: "Roboto", sans-serif;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%; /* Make sure the header spans the full width of the viewport */
-  z-index: 1000; /* Ensure it's above other content */
-  height: 230px; /* Ensure it has enough height to be visible */
+  width: 100%;
+  z-index: 1000;
+  height: var(--header-height);
   display: flex;
   align-items: center;
 }
@@ -26,31 +19,52 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 /* Logo styling */
 .logo {
-  font-size: 110px;
-  /* font-weight: bold; */
-}
-
-/* Sticky Header Bar */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-body {
-  padding-top: 80px;
+  font-size: var(--font-xl);
 }
 
 .logo-img {
-  padding-left: 40px;
-  padding-right: 15px;
+  padding-left: var(--space-sm);
+  padding-right: var(--space-xs);
   scale: 1.05;
+  max-height: var(--header-height);
+}
+
+/* Language switcher */
+.language-switcher {
+  display: flex;
+  align-items: center;
+}
+
+.language-switcher button {
+  font-family: "Roboto", sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-surface);
+  font-size: var(--font-lg);
+  font-weight: normal;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-text);
+  cursor: pointer;
+}
+
+.en-button {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  padding-right: var(--space-sm);
+}
+
+.hu-button {
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.language-switcher button.button-active {
+  background-color: var(--color-text);
+  color: var(--color-bg);
 }
 
 /* Responsive design for small screens */
@@ -59,36 +73,4 @@ body {
     flex-direction: column;
     text-align: center;
   }
-}
-
-.language-switcher button {
-  font-family: roboto;
-  color: #d4be98;
-  background-color: #32302f;
-  align-items: center;
-  position: absolute;
-  font-size: 70px;
-  padding: 20px;
-  border: 1px solid #d4be98;
-}
-
-div .hu-button {
-  right: 180px;
-  top: 50px;
-  border-top-left-radius: 25%;
-  border-bottom-left-radius: 25%;
-  padding-right: 30px;
-}
-
-div .en-button {
-  right: 60px;
-  top: 50px;
-  border-top-right-radius: 25%;
-  border-bottom-right-radius: 25%;
-}
-
-div .button-active {
-  background-color: #d4be98;
-  color: #32302f;
-  font-weight: bold;
 }

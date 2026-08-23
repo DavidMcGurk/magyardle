@@ -21,7 +21,7 @@ export default function floydWarshall(
     }
 
     // Set the distance to neighboring nodes based on edges
-    nodes[i].edges.forEach((weight, neighbor) => {
+    nodes[i].getEdges().forEach((weight, neighbor) => {
       dist.get(nodes[i])!.set(neighbor, weight);
     });
   }

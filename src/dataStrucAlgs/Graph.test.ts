@@ -5,8 +5,7 @@ describe("Graph", () => {
   describe("constructor", () => {
     it("initializes with an empty nodes map", () => {
       const graph = new Graph();
-      expect(graph.nodes).toBeInstanceOf(Map);
-      expect(graph.nodes.size).toBe(0);
+      expect(graph.size).toBe(0);
     });
   });
 
@@ -16,8 +15,8 @@ describe("Graph", () => {
       const node = graph.addNode("Pest");
 
       expect(node.name).toBe("Pest");
-      expect(graph.nodes.size).toBe(1);
-      expect(graph.nodes.get("Pest")).toBe(node);
+      expect(graph.size).toBe(1);
+      expect(graph.getNode("Pest")).toBe(node);
     });
 
     it("adds multiple nodes", () => {
@@ -26,7 +25,7 @@ describe("Graph", () => {
       graph.addNode("Buda");
       graph.addNode("Obuda");
 
-      expect(graph.nodes.size).toBe(3);
+      expect(graph.size).toBe(3);
     });
 
     it("overwrites a node with the same name", () => {
@@ -34,9 +33,9 @@ describe("Graph", () => {
       const node1 = graph.addNode("Pest");
       const node2 = graph.addNode("Pest");
 
-      expect(graph.nodes.size).toBe(1);
-      expect(graph.nodes.get("Pest")).toBe(node2);
-      expect(graph.nodes.get("Pest")).not.toBe(node1);
+      expect(graph.size).toBe(1);
+      expect(graph.getNode("Pest")).toBe(node2);
+      expect(graph.getNode("Pest")).not.toBe(node1);
     });
   });
 
@@ -64,7 +63,7 @@ describe("Graph", () => {
 
       const pestNode = graph.getNode("Pest")!;
       const budaNode = graph.getNode("Buda")!;
-      expect(pestNode.edges.get(budaNode)).toBe(5);
+      expect(pestNode.getWeightTo(budaNode)).toBe(5);
     });
 
     it("does nothing if the from node does not exist", () => {
@@ -72,7 +71,7 @@ describe("Graph", () => {
       graph.addNode("Buda");
       graph.addEdge("NonExistent", "Buda", 5);
 
-      expect(graph.getNode("Buda")!.edges.size).toBe(0);
+      expect(graph.getNode("Buda")!.edgeCount).toBe(0);
     });
 
     it("does nothing if the to node does not exist", () => {
@@ -80,14 +79,14 @@ describe("Graph", () => {
       graph.addNode("Pest");
       graph.addEdge("Pest", "NonExistent", 5);
 
-      expect(graph.getNode("Pest")!.edges.size).toBe(0);
+      expect(graph.getNode("Pest")!.edgeCount).toBe(0);
     });
 
     it("does nothing if neither node exists", () => {
       const graph = new Graph();
       graph.addEdge("A", "B", 5);
 
-      expect(graph.nodes.size).toBe(0);
+      expect(graph.size).toBe(0);
     });
 
     it("creates a directed edge (not bidirectional)", () => {
@@ -98,8 +97,8 @@ describe("Graph", () => {
 
       const pestNode = graph.getNode("Pest")!;
       const budaNode = graph.getNode("Buda")!;
-      expect(pestNode.edges.size).toBe(1);
-      expect(budaNode.edges.size).toBe(0);
+      expect(pestNode.edgeCount).toBe(1);
+      expect(budaNode.edgeCount).toBe(0);
     });
   });
 

@@ -1,48 +1,40 @@
-// Trie.ts
 import TrieNode from "./TrieNode";
 
 export default class Trie {
-  root: TrieNode;
+  private root: TrieNode;
 
   constructor() {
     this.root = new TrieNode();
   }
 
-  // Insert a word into the trie
   insert(word: string): void {
     let node = this.root;
-
     for (const char of word) {
       if (!node.children[char]) {
         node.children[char] = new TrieNode();
       }
       node = node.children[char];
     }
-
     node.isEndOfWord = true;
   }
 
-  // Search for all words that start with the given prefix
   search(prefix: string): string[] {
     if (prefix.length === 0) {
       return this.getAllWords();
     }
 
-    const realPrefix =
-      prefix[0].toUpperCase() + prefix.substring(1).toLowerCase();
+    const normalizedPrefix = this.normalizePrefix(prefix);
     let node = this.root;
-    const results: string[] = [];
 
-    // Traverse the Trie to find the node corresponding to the prefix
-    for (const char of realPrefix) {
+    for (const char of normalizedPrefix) {
       if (!node.children[char]) {
-        return []; // If prefix is not found, return an empty array
+        return [];
       }
       node = node.children[char];
     }
 
-    // Collect all words that start with the prefix
-    this.collectWords(node, realPrefix, results);
+    const results: string[] = [];
+    this.collectWords(node, normalizedPrefix, results);
     return results;
   }
 
@@ -52,33 +44,31 @@ export default class Trie {
     return results;
   }
 
-  // Helper method to collect words from a given node
-  private collectWords(
-    node: TrieNode,
-    prefix: string,
-    results: string[]
-  ): void {
-    if (node.isEndOfWord) {
-      results.push(prefix); // Add the current prefix as a valid word
-    }
-
-    // Recursively collect words from child nodes
-    for (const char in node.children) {
-      this.collectWords(node.children[char], prefix + char, results);
-    }
-  }
-
-  // Check if there is any word in the trie that starts with the given prefix
   startsWith(prefix: string): boolean {
     let node = this.root;
-
     for (const char of prefix) {
       if (!node.children[char]) {
         return false;
       }
       node = node.children[char];
     }
-
     return true;
+  }
+
+  private normalizePrefix(prefix: string): string {
+    return prefix[0].toUpperCase() + prefix.substring(1).toLowerCase();
+  }
+
+  private collectWords(
+    node: TrieNode,
+    prefix: string,
+    results: string[]
+  ): void {
+    if (node.isEndOfWord) {
+      results.push(prefix);
+    }
+    for (const char in node.children) {
+      this.collectWords(node.children[char], prefix + char, results);
+    }
   }
 }
