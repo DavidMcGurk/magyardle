@@ -69,8 +69,19 @@ header {
 
 /* Responsive design for small screens */
 @media (max-width: 600px) {
+  header {
+    position: relative;
+    height: auto;
+    min-height: 0;
+  }
+
   .navbar {
     flex-direction: column;
     text-align: center;
+    gap: var(--space-xs);
+  }
+
+  .logo-img {
+    max-height: 48px;
   }
 }
