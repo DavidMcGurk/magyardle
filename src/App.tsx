@@ -56,6 +56,7 @@ const App = () => {
     handleSelectSuggestion,
     resetSearch,
     selectedSuggestionIndex,
+    errorMessage,
   } = useSearch(
     start,
     finish,
@@ -126,6 +127,11 @@ const App = () => {
           onButtonClick={handleGuessClick}
           language={language}
         />
+        {errorMessage && (
+          <p className="input-error" role="alert">
+            {errorMessage}
+          </p>
+        )}
         <div
           className="suggestions-box"
           style={{
@@ -169,14 +175,16 @@ const App = () => {
           )}
         </div>
 
-        <GuessList
-          guesses={guesses}
-          setGuesses={setGuesses}
-          recentGuess={recentGuess}
-          guessQuality={guessQuality}
-          setGuessQuality={setGuessQuality}
-          language={language}
-        />
+        {!errorMessage && (
+          <GuessList
+            guesses={guesses}
+            setGuesses={setGuesses}
+            recentGuess={recentGuess}
+            guessQuality={guessQuality}
+            setGuessQuality={setGuessQuality}
+            language={language}
+          />
+        )}
       </main>
     </div>
   );

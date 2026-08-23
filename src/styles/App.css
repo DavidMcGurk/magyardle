@@ -52,6 +52,14 @@ main {
   flex-shrink: 0;
 }
 
+.input-error {
+  color: var(--color-start);
+  font-family: "Roboto", sans-serif;
+  font-size: var(--font-md);
+  font-weight: 500;
+  margin-top: var(--space-sm);
+}
+
 .suggestions-list {
   margin: 0;
   padding: var(--space-sm) 0;

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react-hooks";
 import useSearch from "./useSearch";
 import Trie from "../dataStrucAlgs/Trie";
@@ -80,10 +80,6 @@ const setup = (
 };
 
 describe("useSearch", () => {
-  beforeEach(() => {
-    vi.stubGlobal("alert", vi.fn());
-  });
-
   describe("handleInputChange", () => {
     it("updates the input value", () => {
       const { result } = renderHook(() =>
@@ -115,7 +111,7 @@ describe("useSearch", () => {
   });
 
   describe("handleGuessClick", () => {
-    it("alerts when guessing the start region", () => {
+    it("shows an error when guessing the start region", () => {
       const { result } = setup({ start: new Node("Pest") });
 
       act(() => {
@@ -125,12 +121,12 @@ describe("useSearch", () => {
         result.current.handleGuessClick();
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "You can't guess the start region!"
       );
     });
 
-    it("alerts when guessing the finish region", () => {
+    it("shows an error when guessing the finish region", () => {
       const { result } = setup({
         start: new Node("Pest"),
         finish: new Node("Buda"),
@@ -143,12 +139,12 @@ describe("useSearch", () => {
         result.current.handleGuessClick();
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "You can't guess the target region!"
       );
     });
 
-    it("alerts when guessing an already-guessed region", () => {
+    it("shows an error when guessing an already-guessed region", () => {
       const { result } = setup({
         start: new Node("Pest"),
         finish: new Node("Buda"),
@@ -162,12 +158,12 @@ describe("useSearch", () => {
         result.current.handleGuessClick();
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "You have already guessed Obuda"
       );
     });
 
-    it("alerts when guessing a region whose display value has a result marker", () => {
+    it("shows an error when guessing a region whose display value has a result marker", () => {
       const { result } = setup({
         start: new Node("Pest"),
         finish: new Node("Buda"),
@@ -181,12 +177,12 @@ describe("useSearch", () => {
         result.current.handleGuessClick();
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "You have already guessed Obuda"
       );
     });
 
-    it("alerts when guessing an invalid region", () => {
+    it("shows an error when guessing an invalid region", () => {
       const { result } = setup();
 
       act(() => {
@@ -196,7 +192,7 @@ describe("useSearch", () => {
         result.current.handleGuessClick();
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "NonExistent is not a valid input"
       );
     });
@@ -287,7 +283,7 @@ describe("useSearch", () => {
         result.current.handleEnterPress(event);
       });
 
-      expect(window.alert).toHaveBeenCalledWith(
+      expect(result.current.errorMessage).toBe(
         "You can't guess the start region!"
       );
     });
@@ -301,7 +297,7 @@ describe("useSearch", () => {
         result.current.handleEnterPress(event);
       });
 
-      expect(window.alert).not.toHaveBeenCalled();
+      expect(result.current.errorMessage).toBeNull();
     });
 
     it("does not trigger guess on non-Enter keys", () => {
@@ -317,7 +313,7 @@ describe("useSearch", () => {
         result.current.handleEnterPress(event);
       });
 
-      expect(window.alert).not.toHaveBeenCalled();
+      expect(result.current.errorMessage).toBeNull();
     });
   });
 

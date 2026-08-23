@@ -24,6 +24,7 @@ const useSearch = (
   const [inputValue, setInputValue] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const engineRef = useRef<SearchEngine | null>(null);
   engineRef.current = new SearchEngine(start, finish, guesses, regionList, adj);
@@ -38,6 +39,7 @@ const useSearch = (
   const handleInputChange = (value: string) => {
     setInputValue(value);
     setSearchTerm(value);
+    setErrorMessage(null);
   };
 
   const handleGuessClick = () => {
@@ -49,10 +51,11 @@ const useSearch = (
     );
 
     if (!result.valid) {
-      alert(result.alert);
+      setErrorMessage(result.alert);
       return;
     }
 
+    setErrorMessage(null);
     setRecentGuess(inputValue);
     setShowHint(false);
 
@@ -115,6 +118,7 @@ const useSearch = (
     resetSearch,
     selectedSuggestionIndex,
     setSelectedSuggestionIndex,
+    errorMessage,
   };
 };
 
