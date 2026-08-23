@@ -29,6 +29,7 @@
   padding: var(--space-sm) var(--space-md);
   background-color: var(--color-bg);
   font-family: "Roboto", sans-serif;
+  font-weight: bold;
   width: var(--submit-width);
   font-size: var(--font-md);
   text-align: center;

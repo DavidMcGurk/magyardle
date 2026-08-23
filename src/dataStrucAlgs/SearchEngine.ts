@@ -35,7 +35,7 @@ export default class SearchEngine {
     if (this.finish.name === input) {
       return { valid: false, alert: t(language, "alertTargetRegion") };
     }
-    if (this.guesses.includes(input)) {
+    if (this.hasAlreadyGuessed(input)) {
       return { valid: false, alert: t(language, "alertAlreadyGuessed", input) };
     }
     if (this.regionList.includes(input)) {
@@ -57,7 +57,7 @@ export default class SearchEngine {
     if (this.finish.name === input) {
       return { valid: false, alert: t(language, "alertTargetRegion") };
     }
-    if (this.guesses.includes(input)) {
+    if (this.hasAlreadyGuessed(input)) {
       return { valid: false, alert: t(language, "alertAlreadyGuessed", input) };
     }
     if (this.regionList.includes(input)) {
@@ -66,5 +66,11 @@ export default class SearchEngine {
       return { valid: true, nodeIndex, connected };
     }
     return { valid: false, alert: t(language, "alertInvalidInput", input) };
+  }
+
+  private hasAlreadyGuessed(input: string): boolean {
+    return this.guesses.some(
+      (guess) => guess === input || guess.startsWith(`${input} `)
+    );
   }
 }

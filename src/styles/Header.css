@@ -62,9 +62,9 @@ header {
   border-bottom-right-radius: var(--border-radius);
 }
 
-.button-active {
+.language-switcher button.button-active {
   background-color: var(--color-text);
-  color: var(--color-surface);
+  color: var(--color-bg);
 }
 
 /* Responsive design for small screens */

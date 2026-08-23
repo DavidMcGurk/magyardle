@@ -167,6 +167,25 @@ describe("useSearch", () => {
       );
     });
 
+    it("alerts when guessing a region whose display value has a result marker", () => {
+      const { result } = setup({
+        start: new Node("Pest"),
+        finish: new Node("Buda"),
+        guesses: ["Obuda 🟩"],
+      });
+
+      act(() => {
+        result.current.handleInputChange("Obuda");
+      });
+      act(() => {
+        result.current.handleGuessClick();
+      });
+
+      expect(window.alert).toHaveBeenCalledWith(
+        "You have already guessed Obuda"
+      );
+    });
+
     it("alerts when guessing an invalid region", () => {
       const { result } = setup();
 
