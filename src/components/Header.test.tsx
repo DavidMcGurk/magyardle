@@ -14,7 +14,7 @@ describe("Header", () => {
     );
     const img = container.querySelector(".logo-img");
     expect(img).not.toBeNull();
-    expect(img).toHaveAttribute("src", "/logo.png");
+    expect(img).toHaveAttribute("src", "/logo.svg");
   });
 
   it("renders the language switcher buttons", () => {

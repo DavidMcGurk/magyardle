@@ -21,7 +21,7 @@ const AdjacencyMatrix: FC<AdjacencyMatrixProps> = ({ onAdjacencyComputed }) => {
     const calculateAdjacencies = async () => {
       try {
         // Fetch the JSON file (assuming it's in the public folder)
-        const response = await fetch("/hu.json");
+        const response = await fetch(`${import.meta.env.BASE_URL}hu.json`);
         const data: GeoJsonData = await response.json();
 
         const coords: number[][][] = [[]]; // Array to store coordinates

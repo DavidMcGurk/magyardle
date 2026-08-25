@@ -11,7 +11,7 @@ const Header = ({ language, setLanguage }: HeaderProps) => {
   return (
     <header>
       <nav className="navbar">
-        <img src={"/logo.svg"} className="logo-img"></img>
+        <img src={`${import.meta.env.BASE_URL}logo.svg`} className="logo-img"></img>
         <div className="logo">magyardle</div>
         <LanguageSwitcher language={language} setLanguage={setLanguage} />
       </nav>
