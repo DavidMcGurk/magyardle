@@ -28,7 +28,7 @@ const MapChart: React.FC<ChildProps> = ({
   connectedChoices,
   disconnectedChoices,
 }) => {
-  const geoUrl = "/hu.json";
+  const geoUrl = `${import.meta.env.BASE_URL}hu.json`;
 
   const handleRegionClick = useCallback((geo: GeoFeature) => {
     // Region click handler - could be used for future interactivity
