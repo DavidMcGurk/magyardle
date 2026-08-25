@@ -69,11 +69,6 @@ header {
 
 /* Responsive design for small screens */
 @media (max-width: 600px) {
-  header {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .navbar {
     flex-wrap: nowrap;
     white-space: nowrap;

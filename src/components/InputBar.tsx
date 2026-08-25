@@ -7,6 +7,7 @@ interface InputBarProps {
   onInputChange: (text: string) => void;
   onButtonClick: () => void;
   language: Language;
+  disabled?: boolean;
 }
 
 const InputBar: React.FC<InputBarProps> = ({
@@ -14,6 +15,7 @@ const InputBar: React.FC<InputBarProps> = ({
   onInputChange,
   onButtonClick,
   language,
+  disabled = false,
 }) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onInputChange(event.target.value);
@@ -31,8 +33,13 @@ const InputBar: React.FC<InputBarProps> = ({
         onChange={handleInputChange}
         placeholder={t(language, "inputPlaceholder")}
         className="text-input"
+        disabled={disabled}
       />
-      <button className="submit-button" onClick={handleClick}>
+      <button
+        className="submit-button"
+        onClick={handleClick}
+        disabled={disabled}
+      >
         {t(language, "guessButton")}
       </button>
     </div>

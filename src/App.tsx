@@ -126,6 +126,7 @@ const App = () => {
           onInputChange={handleInputChange}
           onButtonClick={handleGuessClick}
           language={language}
+          disabled={requiredSteps <= 1}
         />
         {errorMessage && (
           <p className="input-error" role="alert">
@@ -165,14 +166,14 @@ const App = () => {
           >
             {showHint ? t(language, "hintHide") : t(language, "hintButton")}
           </button>
-          <button className="restart-button" onClick={handleRestart}>
-            {t(language, "restartButton")}
-          </button>
           {showHint && hint && (
             <span className="hint-text">
               {t(language, "hintText", hint.substring(0, 2))}
             </span>
           )}
+          <button className="restart-button" onClick={handleRestart}>
+            {t(language, "restartButton")}
+          </button>
         </div>
 
         {!errorMessage && (

@@ -30,6 +30,15 @@
   --border-radius: 0.8rem;
 }
 
+@media (max-width: 600px) {
+  :root {
+    --map-width: 94vw;
+    --map-height: calc(var(--map-width) * 0.75);
+    --input-width: 94vw;
+    --submit-width: 24vw;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
