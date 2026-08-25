@@ -10,7 +10,12 @@ export default function processName(
     ["Salgótarján", "Dunaújváros", "Veszprém", "Debrecen"].includes(input);
 
   const lastWord = input.split(/[-\s]/).pop() || "";
-  const frontVowel: boolean = !/[aáoóuú]/i.test(lastWord);
+  // Hungarian vowel harmony: front rounded vowels (ö, ő, ü, ű) are not neutral
+  // and force front harmony even when back vowels are also present (e.g.
+  // "Hódmezővásárhely" contains back vowels ó/á but also the front rounded
+  // vowel ő, so it takes front suffixes: "Hódmezővásárhelyre").
+  const hasFrontRounded = /[öőüű]/i.test(lastWord);
+  const frontVowel: boolean = hasFrontRounded || !/[aáoóuú]/i.test(lastWord);
 
   if (destination && illative) {
     if (frontVowel) {

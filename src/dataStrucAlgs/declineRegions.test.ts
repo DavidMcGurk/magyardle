@@ -132,5 +132,18 @@ describe("processName (Hungarian declension)", () => {
       const result = processName("Bács-Kiskun", true);
       expect(result).toBe("Bács-Kiskunra");
     });
+
+    it("uses front harmony when front rounded vowels override back vowels", () => {
+      // "Hódmezővásárhely" contains back vowels (ó, á) but also the front
+      // rounded vowel ő, which forces front harmony → "re"
+      const result = processName("Hódmezővásárhely", true);
+      expect(result).toBe("Hódmezővásárhelyre");
+    });
+
+    it("uses front harmony for elative when front rounded vowels present", () => {
+      // "Hódmezővásárhely" - front rounded ő → "ről"
+      const result = processName("Hódmezővásárhely", false);
+      expect(result).toBe("Hódmezővásárhelyről");
+    });
   });
 });
