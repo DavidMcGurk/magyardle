@@ -1,5 +1,7 @@
 # Magyardle
 
+🌐 **Play online at <https://davidmcgurk.github.io/magyardle/>**
+
 A web game that tests your knowledge of Hungarian regional geography. Find the shortest path between two Hungarian regions on an interactive map.
 
 ## Prerequisites
