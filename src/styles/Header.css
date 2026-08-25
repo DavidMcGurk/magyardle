@@ -70,15 +70,13 @@ header {
 /* Responsive design for small screens */
 @media (max-width: 600px) {
   header {
-    position: relative;
-    height: auto;
-    min-height: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .navbar {
-    flex-direction: column;
-    text-align: center;
-    gap: var(--space-xs);
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
 
   .logo-img {
